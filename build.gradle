@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group 'me.auropol.bluemint'
+version '0.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    // https://mvnrepository.com/artifact/net.java.dev.jna/jna
+    compile group: 'net.java.dev.jna', name: 'jna', version: '5.6.0'
+    // https://mvnrepository.com/artifact/org.jetbrains/annotations
+    compile group: 'org.jetbrains', name: 'annotations', version: '13.0'
+
+}
