@@ -17,6 +17,19 @@ public class BluemintInitializer {
     public static String NAME = "Bluemint Library";
     public static String CREDITS = "Auropol";
     public static BaseCalendar.Date date;
+    static {
+        date = new BaseCalendar.Date() {
+            @Override
+            public int getNormalizedYear() {
+                return 2020;
+            }
+
+            @Override
+            public void setNormalizedYear(int i) {
+             i = getNormalizedYear();
+            }
+        };
+    }
     private static String currentDate() {
         int minutes = date.getMinutes();
         int hours = date.getHours();
