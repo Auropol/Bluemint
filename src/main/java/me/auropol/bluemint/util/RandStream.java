@@ -196,26 +196,34 @@ public interface RandStream {
         return input[nextObject];
     }
     static String pickGradientlyFrom(String[] input) {
-         int arrBound = BluemintInitializer.date.getMillis();
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
         int nextObjectRaw = new Random().nextInt(arrBound);
         if(arrBound == 1000) {
             return input[nextObjectRaw];
         } else {
             int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
-        for(int i : numberBlackList)  {
-            if(i == nextObjectRaw)  {
-              int anotherObject = new Random().nextInt(arrBound);
-              if(i == anotherObject) {
-                  return input[new Random().nextInt(arrBound)];
-              }
-                return input[anotherObject];
+            for(int i : numberBlackList)  {
+                if(i == nextObjectRaw)  {
+                    int anotherObject = new Random().nextInt(arrBound);
+                    if(i == anotherObject) {
+                        return input[new Random().nextInt(arrBound)];
+                    }
+                    return input[anotherObject];
+                }
             }
         }
-        }
-         return input[nextObjectRaw];
+        return input[nextObjectRaw];
     }
     static Object pickGradientlyFrom(Object[] input) {
-        int arrBound = BluemintInitializer.date.getMillis();
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
         int nextObjectRaw = new Random().nextInt(arrBound);
         if(arrBound == 1000) {
             return input[nextObjectRaw];
@@ -234,7 +242,11 @@ public interface RandStream {
         return input[nextObjectRaw];
     }
     static int pickGradientlyFrom(int[] input) {
-        int arrBound = BluemintInitializer.date.getMillis();
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
         int nextObjectRaw = new Random().nextInt(arrBound);
         if(arrBound == 1000) {
             return input[nextObjectRaw];
@@ -253,7 +265,11 @@ public interface RandStream {
         return input[nextObjectRaw];
     }
     static long pickGradientlyFrom(long[] input) {
-        int arrBound = BluemintInitializer.date.getMillis();
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
         int nextObjectRaw = new Random().nextInt(arrBound);
         if(arrBound == 1000) {
             return input[nextObjectRaw];
@@ -272,7 +288,11 @@ public interface RandStream {
         return input[nextObjectRaw];
     }
     static short pickGradientlyFrom(short[] input) {
-        int arrBound = BluemintInitializer.date.getMillis();
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
         int nextObjectRaw = new Random().nextInt(arrBound);
         if(arrBound == 1000) {
             return input[nextObjectRaw];
@@ -291,7 +311,11 @@ public interface RandStream {
         return input[nextObjectRaw];
     }
     static byte pickGradientlyFrom(byte[] input) {
-        int arrBound = BluemintInitializer.date.getMillis();
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
         int nextObjectRaw = new Random().nextInt(arrBound);
         if(arrBound == 1000) {
             return input[nextObjectRaw];
@@ -310,7 +334,11 @@ public interface RandStream {
         return input[nextObjectRaw];
     }
     static float pickGradientlyFrom(float[] input) {
-        int arrBound = BluemintInitializer.date.getMillis();
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
         int nextObjectRaw = new Random().nextInt(arrBound);
         if(arrBound == 1000) {
             return input[nextObjectRaw];
@@ -329,7 +357,11 @@ public interface RandStream {
         return input[nextObjectRaw];
     }
    static double pickGradientlyFrom(double[] input) {
-       int arrBound = BluemintInitializer.date.getMillis();
+       int arrBound = addInfinitely(1, 1, 1000);
+       if(arrBound == 1) {
+           arrBound = addInfinitely(1, 1, 1000) + 2;
+           return input[2];
+       }
        int nextObjectRaw = new Random().nextInt(arrBound);
        if(arrBound == 1000) {
            return input[nextObjectRaw];
@@ -348,7 +380,11 @@ public interface RandStream {
        return input[nextObjectRaw];
    }
    static char pickGradientlyFrom(char[] input) {
-       int arrBound = BluemintInitializer.date.getMillis();
+       int arrBound = addInfinitely(1, 1, 1000);
+       if(arrBound == 1) {
+           arrBound = addInfinitely(1, 1, 1000) + 2;
+           return input[2];
+       }
        int nextObjectRaw = new Random().nextInt(arrBound);
        if(arrBound == 1000) {
            return input[nextObjectRaw];
@@ -367,7 +403,11 @@ public interface RandStream {
        return input[nextObjectRaw];
    }
    static boolean pickGradientlyFrom(boolean[] input) {
-       int arrBound = BluemintInitializer.date.getMillis();
+       int arrBound = addInfinitely(1, 1, 1000);
+       if(arrBound == 1) {
+           arrBound = addInfinitely(1, 1, 1000) + 2;
+           return input[2];
+       }
        int nextObjectRaw = new Random().nextInt(arrBound);
        if(arrBound == 1000) {
            return input[nextObjectRaw];
@@ -389,16 +429,16 @@ public interface RandStream {
         int nextObjectRaw = new Random().nextInt(arrayLength);
         int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrayLength));
         if(uncall) {
-        for(int i : numberBlackList) {
-            if(i == nextObjectRaw) {
-                int anotherObject = new Random().nextInt(arrayLength);
-                if(i == anotherObject) {
-                    return new Random().nextInt(arrayLength);
+            for(int i : numberBlackList) {
+                if(i == nextObjectRaw) {
+                    int anotherObject = new Random().nextInt(arrayLength);
+                    if(i == anotherObject) {
+                        return new Random().nextInt(arrayLength);
+                    }
+                    return anotherObject;
                 }
-                return anotherObject;
+                return new Random().nextInt(arrayLength);
             }
-            return new Random().nextInt(arrayLength);
-        }
         }
         return nextObjectRaw;
     }
@@ -406,6 +446,23 @@ public interface RandStream {
        Runnable task = new Task().generateNewTaskR(generateRandomColor());
        new Task().scheduleTaskAtFixedDelay(task, 1, 1, TimeUnit.MILLISECONDS);
        return generateRandomColor();
+    }
+    @Deprecated
+    static int addInfinitely(int value, int addingValue, int cap) {
+        for (int i = 0; i < value; i++) {
+            value = value + addingValue;
+            if(value == cap) {
+                return 1;
+            }
+        }
+        return value;
+    }
+    @Deprecated
+    static int addInfinitely(int value, int addingValue) {
+        for (int i = 0; i < value; i++) {
+            value = value + addingValue;
+        }
+        return value;
     }
 
 }
