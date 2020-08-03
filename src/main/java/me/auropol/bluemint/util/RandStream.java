@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import me.auropol.bluemint.BluemintInitializer;
+import me.auropol.bluemint.primitive.*;
 import me.auropol.bluemint.primitive.Container;
-import me.auropol.bluemint.primitive.Converter;
-import me.auropol.bluemint.primitive.Task;
-import me.auropol.bluemint.primitive.Wrapper;
 import sun.util.calendar.BaseCalendar;
+
+import static me.auropol.bluemint.primitive.Wrappers.addInfinitely;
 
 public interface RandStream {
     static Color generateRandomColor() {
@@ -40,6 +40,20 @@ public interface RandStream {
         int i = Integer.parseInt(strCharacter);
         return (char)i;
     }
+    static String generateRandomLetter(boolean uppercase, boolean includeBlankCharacter) {
+        String[] letters = Container.manage().createArrayString("a", "b", "c", "d", "e", "f", "g", "h", "c", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q" ,"r", "s", "t", "u", "v", "w ","x ","y" ,"z");
+        if(includeBlankCharacter) {
+            letters = Container.manage().createArrayString("a", "b", "c", "d", "e", "f", "g", "h", "c", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q" ,"r", "s", "t", "u", "v", "w ","x ","y" ,"z", " ");
+            if(uppercase) {
+                letters = Container.manage().createArrayString("A", "B", "C" ,"D" ,"E" ,"F" ,"G" ,"H" ," I"  ," J"  ,"K", "L" ,"M" ,"N" ,"O", "P", "Q", "R", "S", "T", "U","V"," W"," X"," Y", "Z", " ");
+            }
+        }
+        if(uppercase) {
+            letters = Container.manage().createArrayString("A", "B", "C" ,"D" ,"E" ,"F" ,"G" ,"H" ," I"  ," J"  ,"K", "L" ,"M" ,"N" ,"O", "P", "Q", "R", "S", "T", "U","V"," W"," X"," Y", "Z");
+        }
+        return pickFrom(letters);
+    }
+    @Deprecated
     static String generateRandomLetter(boolean uppercase) {
         int nextLetter = new Random().nextInt(26 - 1 + 1) - 1;
         String a = Map.assignToFrom("a", 1,  nextLetter);
@@ -123,38 +137,6 @@ public interface RandStream {
         }
       return Integer.parseInt(String.valueOf(zero) + x + hex);
     }
-    static byte generateRandomByte() {
-        return (byte) ((byte)new Random().nextInt(Byte.MAX_VALUE - 1) + 1);
-    }
-    static short generateRandomShort() {
-        return (short) ((short)new Random().nextInt(Short.MAX_VALUE - 1) + 1);
-    }
-    static String generateRandomHash() {
-        String rnd = RandStream.generateRandomLetter(true) + RandStream.generateRandomLetter(false) + RandStream.generateRandomLetter(false) + RandStream.generateRandomLetter(false);
-        byte[] input = rnd.getBytes();
-        MessageDigest messageDigest = new MessageDigest("SHA-512") {
-            @Override
-            protected void engineUpdate(byte input) {
-
-            }
-
-            @Override
-            protected void engineUpdate(byte[] input, int offset, int len) {
-
-            }
-
-            @Override
-            protected byte[] engineDigest() {
-                return input;
-            }
-
-            @Override
-            protected void engineReset() {
-
-            }
-        };
-        return Arrays.toString(messageDigest.digest(input));
-    }
     static Object pickFrom(Object[] input) {
         int nextObject = new Random().nextInt(input.length);
         return input[nextObject];
@@ -195,236 +177,39 @@ public interface RandStream {
         int nextObject = new Random().nextInt(input.length);
         return input[nextObject];
     }
-    static String pickGradientlyFrom(String[] input) {
-        int arrBound = addInfinitely(1, 1, 1000);
-        if(arrBound == 1) {
-            arrBound = addInfinitely(1, 1, 1000) + 2;
-            return input[2];
-        }
-        int nextObjectRaw = new Random().nextInt(arrBound);
-        if(arrBound == 1000) {
-            return input[nextObjectRaw];
-        } else {
-            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
-            for(int i : numberBlackList)  {
-                if(i == nextObjectRaw)  {
-                    int anotherObject = new Random().nextInt(arrBound);
-                    if(i == anotherObject) {
-                        return input[new Random().nextInt(arrBound)];
-                    }
-                    return input[anotherObject];
-                }
-            }
-        }
-        return input[nextObjectRaw];
+
+    static byte generateRandomByte() {
+        return (byte) ((byte)new Random().nextInt(Byte.MAX_VALUE - 1) + 1);
     }
-    static Object pickGradientlyFrom(Object[] input) {
-        int arrBound = addInfinitely(1, 1, 1000);
-        if(arrBound == 1) {
-            arrBound = addInfinitely(1, 1, 1000) + 2;
-            return input[2];
-        }
-        int nextObjectRaw = new Random().nextInt(arrBound);
-        if(arrBound == 1000) {
-            return input[nextObjectRaw];
-        } else {
-            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
-            for(int i : numberBlackList)  {
-                if(i == nextObjectRaw)  {
-                    int anotherObject = new Random().nextInt(arrBound);
-                    if(i == anotherObject) {
-                        return input[new Random().nextInt(arrBound)];
-                    }
-                    return input[anotherObject];
-                }
-            }
-        }
-        return input[nextObjectRaw];
+    static short generateRandomShort() {
+        return (short) ((short)new Random().nextInt(Short.MAX_VALUE - 1) + 1);
     }
-    static int pickGradientlyFrom(int[] input) {
-        int arrBound = addInfinitely(1, 1, 1000);
-        if(arrBound == 1) {
-            arrBound = addInfinitely(1, 1, 1000) + 2;
-            return input[2];
-        }
-        int nextObjectRaw = new Random().nextInt(arrBound);
-        if(arrBound == 1000) {
-            return input[nextObjectRaw];
-        } else {
-            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
-            for(int i : numberBlackList)  {
-                if(i == nextObjectRaw)  {
-                    int anotherObject = new Random().nextInt(arrBound);
-                    if(i == anotherObject) {
-                        return input[new Random().nextInt(arrBound)];
-                    }
-                    return input[anotherObject];
-                }
+    static String generateRandomHash() {
+        String rnd = RandStream.generateRandomLetter(true) + RandStream.generateRandomLetter(false) + RandStream.generateRandomLetter(false) + RandStream.generateRandomLetter(false);
+        byte[] input = rnd.getBytes();
+        MessageDigest messageDigest = new MessageDigest("SHA-512") {
+            @Override
+            protected void engineUpdate(byte input) {
+
             }
-        }
-        return input[nextObjectRaw];
-    }
-    static long pickGradientlyFrom(long[] input) {
-        int arrBound = addInfinitely(1, 1, 1000);
-        if(arrBound == 1) {
-            arrBound = addInfinitely(1, 1, 1000) + 2;
-            return input[2];
-        }
-        int nextObjectRaw = new Random().nextInt(arrBound);
-        if(arrBound == 1000) {
-            return input[nextObjectRaw];
-        } else {
-            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
-            for(int i : numberBlackList)  {
-                if(i == nextObjectRaw)  {
-                    int anotherObject = new Random().nextInt(arrBound);
-                    if(i == anotherObject) {
-                        return input[new Random().nextInt(arrBound)];
-                    }
-                    return input[anotherObject];
-                }
+
+            @Override
+            protected void engineUpdate(byte[] input, int offset, int len) {
+
             }
-        }
-        return input[nextObjectRaw];
-    }
-    static short pickGradientlyFrom(short[] input) {
-        int arrBound = addInfinitely(1, 1, 1000);
-        if(arrBound == 1) {
-            arrBound = addInfinitely(1, 1, 1000) + 2;
-            return input[2];
-        }
-        int nextObjectRaw = new Random().nextInt(arrBound);
-        if(arrBound == 1000) {
-            return input[nextObjectRaw];
-        } else {
-            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
-            for(int i : numberBlackList)  {
-                if(i == nextObjectRaw)  {
-                    int anotherObject = new Random().nextInt(arrBound);
-                    if(i == anotherObject) {
-                        return input[new Random().nextInt(arrBound)];
-                    }
-                    return input[anotherObject];
-                }
+
+            @Override
+            protected byte[] engineDigest() {
+                return input;
             }
-        }
-        return input[nextObjectRaw];
-    }
-    static byte pickGradientlyFrom(byte[] input) {
-        int arrBound = addInfinitely(1, 1, 1000);
-        if(arrBound == 1) {
-            arrBound = addInfinitely(1, 1, 1000) + 2;
-            return input[2];
-        }
-        int nextObjectRaw = new Random().nextInt(arrBound);
-        if(arrBound == 1000) {
-            return input[nextObjectRaw];
-        } else {
-            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
-            for(int i : numberBlackList)  {
-                if(i == nextObjectRaw)  {
-                    int anotherObject = new Random().nextInt(arrBound);
-                    if(i == anotherObject) {
-                        return input[new Random().nextInt(arrBound)];
-                    }
-                    return input[anotherObject];
-                }
+
+            @Override
+            protected void engineReset() {
+
             }
-        }
-        return input[nextObjectRaw];
+        };
+        return Arrays.toString(messageDigest.digest(input));
     }
-    static float pickGradientlyFrom(float[] input) {
-        int arrBound = addInfinitely(1, 1, 1000);
-        if(arrBound == 1) {
-            arrBound = addInfinitely(1, 1, 1000) + 2;
-            return input[2];
-        }
-        int nextObjectRaw = new Random().nextInt(arrBound);
-        if(arrBound == 1000) {
-            return input[nextObjectRaw];
-        } else {
-            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
-            for(int i : numberBlackList)  {
-                if(i == nextObjectRaw)  {
-                    int anotherObject = new Random().nextInt(arrBound);
-                    if(i == anotherObject) {
-                        return input[new Random().nextInt(arrBound)];
-                    }
-                    return input[anotherObject];
-                }
-            }
-        }
-        return input[nextObjectRaw];
-    }
-   static double pickGradientlyFrom(double[] input) {
-       int arrBound = addInfinitely(1, 1, 1000);
-       if(arrBound == 1) {
-           arrBound = addInfinitely(1, 1, 1000) + 2;
-           return input[2];
-       }
-       int nextObjectRaw = new Random().nextInt(arrBound);
-       if(arrBound == 1000) {
-           return input[nextObjectRaw];
-       } else {
-           int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
-           for(int i : numberBlackList)  {
-               if(i == nextObjectRaw)  {
-                   int anotherObject = new Random().nextInt(arrBound);
-                   if(i == anotherObject) {
-                       return input[new Random().nextInt(arrBound)];
-                   }
-                   return input[anotherObject];
-               }
-           }
-       }
-       return input[nextObjectRaw];
-   }
-   static char pickGradientlyFrom(char[] input) {
-       int arrBound = addInfinitely(1, 1, 1000);
-       if(arrBound == 1) {
-           arrBound = addInfinitely(1, 1, 1000) + 2;
-           return input[2];
-       }
-       int nextObjectRaw = new Random().nextInt(arrBound);
-       if(arrBound == 1000) {
-           return input[nextObjectRaw];
-       } else {
-           int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
-           for(int i : numberBlackList)  {
-               if(i == nextObjectRaw)  {
-                   int anotherObject = new Random().nextInt(arrBound);
-                   if(i == anotherObject) {
-                       return input[new Random().nextInt(arrBound)];
-                   }
-                   return input[anotherObject];
-               }
-           }
-       }
-       return input[nextObjectRaw];
-   }
-   static boolean pickGradientlyFrom(boolean[] input) {
-       int arrBound = addInfinitely(1, 1, 1000);
-       if(arrBound == 1) {
-           arrBound = addInfinitely(1, 1, 1000) + 2;
-           return input[2];
-       }
-       int nextObjectRaw = new Random().nextInt(arrBound);
-       if(arrBound == 1000) {
-           return input[nextObjectRaw];
-       } else {
-           int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
-           for(int i : numberBlackList)  {
-               if(i == nextObjectRaw)  {
-                   int anotherObject = new Random().nextInt(arrBound);
-                   if(i == anotherObject) {
-                       return input[new Random().nextInt(arrBound)];
-                   }
-                   return input[anotherObject];
-               }
-           }
-       }
-       return input[nextObjectRaw];
-   }
     static int blacklist(int arrayLength, boolean uncall) {
         int nextObjectRaw = new Random().nextInt(arrayLength);
         int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrayLength));
@@ -448,21 +233,244 @@ public interface RandStream {
        return generateRandomColor();
     }
     @Deprecated
-    static int addInfinitely(int value, int addingValue, int cap) {
-        for (int i = 0; i < value; i++) {
-            value = value + addingValue;
-            if(value == cap) {
-                return 1;
+    static String pickGradientlyFrom(String[] input) {
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
+        int nextObjectRaw = new Random().nextInt(arrBound);
+        if(arrBound == 1000) {
+            return input[nextObjectRaw];
+        } else {
+            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
+            for(int i : numberBlackList)  {
+                if(i == nextObjectRaw)  {
+                    int anotherObject = new Random().nextInt(arrBound);
+                    if(i == anotherObject) {
+                        return input[new Random().nextInt(arrBound)];
+                    }
+                    return input[anotherObject];
+                }
             }
         }
-        return value;
+        return input[nextObjectRaw];
     }
     @Deprecated
-    static int addInfinitely(int value, int addingValue) {
-        for (int i = 0; i < value; i++) {
-            value = value + addingValue;
+    static Object pickGradientlyFrom(Object[] input) {
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
         }
-        return value;
+        int nextObjectRaw = new Random().nextInt(arrBound);
+        if(arrBound == 1000) {
+            return input[nextObjectRaw];
+        } else {
+            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
+            for(int i : numberBlackList)  {
+                if(i == nextObjectRaw)  {
+                    int anotherObject = new Random().nextInt(arrBound);
+                    if(i == anotherObject) {
+                        return input[new Random().nextInt(arrBound)];
+                    }
+                    return input[anotherObject];
+                }
+            }
+        }
+        return input[nextObjectRaw];
+    }
+    @Deprecated
+    static int pickGradientlyFrom(int[] input) {
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
+        int nextObjectRaw = new Random().nextInt(arrBound);
+        if(arrBound == 1000) {
+            return input[nextObjectRaw];
+        } else {
+            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
+            for(int i : numberBlackList)  {
+                if(i == nextObjectRaw)  {
+                    int anotherObject = new Random().nextInt(arrBound);
+                    if(i == anotherObject) {
+                        return input[new Random().nextInt(arrBound)];
+                    }
+                    return input[anotherObject];
+                }
+            }
+        }
+        return input[nextObjectRaw];
+    }
+    @Deprecated
+    static long pickGradientlyFrom(long[] input) {
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
+        int nextObjectRaw = new Random().nextInt(arrBound);
+        if(arrBound == 1000) {
+            return input[nextObjectRaw];
+        } else {
+            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
+            for(int i : numberBlackList)  {
+                if(i == nextObjectRaw)  {
+                    int anotherObject = new Random().nextInt(arrBound);
+                    if(i == anotherObject) {
+                        return input[new Random().nextInt(arrBound)];
+                    }
+                    return input[anotherObject];
+                }
+            }
+        }
+        return input[nextObjectRaw];
+    }
+    @Deprecated
+    static short pickGradientlyFrom(short[] input) {
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
+        int nextObjectRaw = new Random().nextInt(arrBound);
+        if(arrBound == 1000) {
+            return input[nextObjectRaw];
+        } else {
+            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
+            for(int i : numberBlackList)  {
+                if(i == nextObjectRaw)  {
+                    int anotherObject = new Random().nextInt(arrBound);
+                    if(i == anotherObject) {
+                        return input[new Random().nextInt(arrBound)];
+                    }
+                    return input[anotherObject];
+                }
+            }
+        }
+        return input[nextObjectRaw];
+    }
+    @Deprecated
+    static byte pickGradientlyFrom(byte[] input) {
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
+        int nextObjectRaw = new Random().nextInt(arrBound);
+        if(arrBound == 1000) {
+            return input[nextObjectRaw];
+        } else {
+            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
+            for(int i : numberBlackList)  {
+                if(i == nextObjectRaw)  {
+                    int anotherObject = new Random().nextInt(arrBound);
+                    if(i == anotherObject) {
+                        return input[new Random().nextInt(arrBound)];
+                    }
+                    return input[anotherObject];
+                }
+            }
+        }
+        return input[nextObjectRaw];
+    }
+    @Deprecated
+    static float pickGradientlyFrom(float[] input) {
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
+        int nextObjectRaw = new Random().nextInt(arrBound);
+        if(arrBound == 1000) {
+            return input[nextObjectRaw];
+        } else {
+            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
+            for(int i : numberBlackList)  {
+                if(i == nextObjectRaw)  {
+                    int anotherObject = new Random().nextInt(arrBound);
+                    if(i == anotherObject) {
+                        return input[new Random().nextInt(arrBound)];
+                    }
+                    return input[anotherObject];
+                }
+            }
+        }
+        return input[nextObjectRaw];
+    }
+    @Deprecated
+    static double pickGradientlyFrom(double[] input) {
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
+        int nextObjectRaw = new Random().nextInt(arrBound);
+        if(arrBound == 1000) {
+            return input[nextObjectRaw];
+        } else {
+            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
+            for(int i : numberBlackList)  {
+                if(i == nextObjectRaw)  {
+                    int anotherObject = new Random().nextInt(arrBound);
+                    if(i == anotherObject) {
+                        return input[new Random().nextInt(arrBound)];
+                    }
+                    return input[anotherObject];
+                }
+            }
+        }
+        return input[nextObjectRaw];
+    }
+    @Deprecated
+    static char pickGradientlyFrom(char[] input) {
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
+        int nextObjectRaw = new Random().nextInt(arrBound);
+        if(arrBound == 1000) {
+            return input[nextObjectRaw];
+        } else {
+            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
+            for(int i : numberBlackList)  {
+                if(i == nextObjectRaw)  {
+                    int anotherObject = new Random().nextInt(arrBound);
+                    if(i == anotherObject) {
+                        return input[new Random().nextInt(arrBound)];
+                    }
+                    return input[anotherObject];
+                }
+            }
+        }
+        return input[nextObjectRaw];
+    }
+    @Deprecated
+    static boolean pickGradientlyFrom(boolean[] input) {
+        int arrBound = addInfinitely(1, 1, 1000);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, 1000) + 2;
+            return input[2];
+        }
+        int nextObjectRaw = new Random().nextInt(arrBound);
+        if(arrBound == 1000) {
+            return input[nextObjectRaw];
+        } else {
+            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
+            for(int i : numberBlackList)  {
+                if(i == nextObjectRaw)  {
+                    int anotherObject = new Random().nextInt(arrBound);
+                    if(i == anotherObject) {
+                        return input[new Random().nextInt(arrBound)];
+                    }
+                    return input[anotherObject];
+                }
+            }
+        }
+        return input[nextObjectRaw];
     }
 
 }
