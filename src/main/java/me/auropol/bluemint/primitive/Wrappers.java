@@ -49,6 +49,21 @@ public abstract class Wrappers {
         }
         return "";
     }
+    public static int addInfinitely(int value, int addingValue, int cap) {
+        for (int i = 0; i < value; i++) {
+            value = value + addingValue;
+            if(value == cap) {
+                return 1;
+            }
+        }
+        return value;
+    }
+    public static int addInfinitely(int value, int addingValue) {
+        for (int i = 0; i < value; i++) {
+            value = value + addingValue;
+        }
+        return value;
+    }
     public enum VoidType {
         SYSTEM_PRINTLN,
         WRITER_PRINTLN,
