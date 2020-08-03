@@ -185,6 +185,9 @@ public boolean inputContentEquals() {
     public double[] createArrayDouble(double... doubles) {
         return doubles;
     }
+    public float[] createArrayFloat(float... floats) {
+        return floats;
+    }
     public boolean inputContains(Object[] input, Object target) {
         for(Object ob : input)  {
             if(ob == target) {
