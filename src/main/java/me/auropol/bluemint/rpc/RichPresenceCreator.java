@@ -1,5 +1,6 @@
 package me.auropol.bluemint.rpc;
 
+import me.auropol.bluemint.primitive.Picker;
 import me.auropol.bluemint.primitive.Task;
 import me.auropol.bluemint.rpc.util.DiscordEventHandlers;
 import me.auropol.bluemint.rpc.util.DiscordRPC;
@@ -71,7 +72,7 @@ public class RichPresenceCreator {
                 } else  {
                     presence.details = detail;
                     presence.state = state;
-                    presence.largeImageKey = RandStream.pickGradientlyFrom(imagePaths);
+                    presence.largeImageKey = Picker.pickInOrder(imagePaths);
                     presence.largeImageText = imageText;
                 }
 
