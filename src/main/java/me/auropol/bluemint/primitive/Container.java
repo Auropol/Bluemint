@@ -164,7 +164,6 @@ public boolean inputContentEquals() {
     }
     return methodEight;
 }
-//Object, String, long, int, short, char, double, float, byte
     public String[] createArrayString(String... strings) {
         return strings;
     }
@@ -185,6 +184,105 @@ public boolean inputContentEquals() {
     }
     public double[] createArrayDouble(double... doubles) {
         return doubles;
+    }
+    public boolean inputContains(Object[] input, Object target) {
+        for(Object ob : input)  {
+            if(ob == target) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean inputContains(String[] input, String target) {
+        for(String s : input)  {
+            if(s.equals(target)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean inputContains(long[] input, long target) {
+        for(long l : input)  {
+            if(l == target ) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean inputContains(int[] input, int target) {
+        for(int i : input)  {
+            if(i  == target ) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean inputContains(short[] input, short target) {
+        for(short s : input)  {
+            if(s == target ) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean inputContains(char[] input, char target) {
+        for(char c : input)  {
+            if(c == target ) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean inputContains(double[] input, double target) {
+        for(double d : input)  {
+            if(d == target ) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean inputContains(float[] input, float target) {
+        for(float f : input)  {
+            if(f == target ) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean inputContains(byte[] input, byte target) {
+        for(byte b : input)  {
+            if(b == target ) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean inputContentEquals(Object[] input, Object[] target)  {
+        return input == target;
+    }
+    public boolean inputContentEquals(String[] input, String[] target)  {
+        return input == target;
+    }
+    public boolean inputContentEquals(long[] input, long[] target)  {
+        return input == target;
+    }
+    public boolean inputContentEquals(int[] input, int[] target)  {
+        return input == target;
+    }
+    public boolean inputContentEquals(short[] input, short[] target)  {
+        return input == target;
+    }
+    public boolean inputContentEquals(char[] input, char[] target)  {
+        return input == target;
+    }
+    public boolean inputContentEquals(double[] input, double[] target)  {
+        return input == target;
+    }
+    public boolean inputContentEquals(float[] input, float[] target)  {
+        return input == target;
+    }
+    public boolean inputContentEquals(byte[] input, byte[] target)  {
+        return input == target;
     }
     public static Container manage(){
         return new Container();
