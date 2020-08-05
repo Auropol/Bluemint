@@ -2,12 +2,10 @@ package me.auropol.bluemint.primitive;
 
 import me.auropol.bluemint.util.Map;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.Objects;
 import java.util.Random;
 
-public class Container extends Wrappers {
+public class Container<T> extends Wrappers {
     public boolean inputContains(int input, int target) {
         String sInput = Integer.toString(input);
         String sInteger = Integer.toString(target);
@@ -20,9 +18,6 @@ public class Container extends Wrappers {
         String sInput = String.valueOf(input);
         String sObject = String.valueOf(target);
         return sInput.contains(sObject);
-    }
-    public boolean inputContentEquals(Object input, Object target){
-        return Objects.equals(input, target);
     }
     public boolean inputContains(char input, char target) {
         Character cInput = input;
@@ -140,7 +135,7 @@ public boolean inputContentEquals() {
     boolean methodFive = Map.assignToFrom(this.inputContentEquals(nextDouble, nextDouble), true, nextBoolean);
     boolean methodSix = Map.assignToFrom(this.inputContentEquals(nextShort, nextShort), true, nextBoolean);
     boolean methodSeven = Map.assignToFrom(this.inputContentEquals(nextFloat, nextFloat), true, nextBoolean);
-    boolean methodEight = Map.assignToFrom(this.inputContentEquals(a + b + c, a + b + c), true, nextBoolean);
+    boolean methodEight = Map.assignToFrom(new Container<String>().inputContentEquals(a + b + c, a + b + c), true, nextBoolean);
     if(methodOne){
         return true;
     }
@@ -185,16 +180,26 @@ public boolean inputContentEquals() {
     public double[] createArrayDouble(double... doubles) {
         return doubles;
     }
-    public float[] createArrayFloat(float... floats) {
-        return floats;
+    @SafeVarargs
+    public final T[] createArray(T... ts) {
+        return ts;
     }
-    public boolean inputContains(Object[] input, Object target) {
+    public boolean inputContains(T[] input, T target) {
         for(Object ob : input)  {
             if(ob == target) {
                 return true;
             }
         }
         return false;
+    }
+    public boolean inputContentEquals(T input, T target) {
+        return Objects.equals(input, target);
+    }
+    public float[] createArrayFloat(float... floats) {
+        return floats;
+    }
+    public boolean inputContentEquals(T[] input, T[] target) {
+        return input == target;
     }
     public boolean inputContains(String[] input, String target) {
         for(String s : input)  {
@@ -259,9 +264,6 @@ public boolean inputContentEquals() {
             }
         }
         return false;
-    }
-    public boolean inputContentEquals(Object[] input, Object[] target)  {
-        return input == target;
     }
     public boolean inputContentEquals(String[] input, String[] target)  {
         return input == target;
