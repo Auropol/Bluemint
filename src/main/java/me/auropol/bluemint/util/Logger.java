@@ -3,7 +3,7 @@ import me.auropol.bluemint.primitive.Wrappers;
 import me.auropol.bluemint.util.Thread.ThreadUtil;
 
 public class Logger {
-    public static LoggerHelper log;
+    private static LoggerHelper log;
     private Wrappers wrappers = new Wrappers() {
         @Override
         public Object wrapper() {
@@ -15,7 +15,7 @@ public class Logger {
         return new Logger();
     }
     public void info(String args, Thread thread){
-        final String str = wrappers.catchVoid(Wrappers.VoidType.SYSTEM_PRINTLN, "",ThreadUtil.generateNewThread(thread) + "(INFO/" + args + ")");
+        final String str = ThreadUtil.generateNewThread(thread) + "(INFO/" + args + ")";
         log = new LoggerHelper() {
             @Override
             public String getLogger() {
@@ -26,7 +26,7 @@ public class Logger {
     }
     public void warn(String args, Thread thread){
         String yellow = "\033[0;93m";
-        final String str = wrappers.catchVoid(Wrappers.VoidType.SYSTEM_PRINTLN, "",ThreadUtil.generateNewThread(thread) + "(WARN/" + args + yellow + ")");
+        final String str = ThreadUtil.generateNewThread(thread) + "(WARN/" + args + yellow + ")";
         log = new LoggerHelper() {
             @Override
             public String getLogger() {
@@ -37,7 +37,7 @@ public class Logger {
     }
     public void critical(String args, Thread thread){
         String red = "\033[0;91m";
-        final String str = wrappers.catchVoid(Wrappers.VoidType.SYSTEM_PRINTLN, "",ThreadUtil.generateNewThread(thread) + "(CRITICAL/" + args + red + ")");
+        final String str = ThreadUtil.generateNewThread(thread) + "(CRITICAL/" + args + red + ")";
         log = new LoggerHelper() {
             @Override
             public String getLogger() {
@@ -48,7 +48,7 @@ public class Logger {
     }
     public void debug(String args, Thread thread) {
         String cyan = "\033[0;96m";
-        final String str = wrappers.catchVoid(Wrappers.VoidType.SYSTEM_PRINTLN, "", ThreadUtil.generateNewThread(thread) + "(DEBUG/" + args + cyan + ")");
+        final String str = ThreadUtil.generateNewThread(thread) + "(DEBUG/" + args + cyan + ")";
         log = new LoggerHelper() {
             @Override
             public String getLogger() {
@@ -66,3 +66,4 @@ public class Logger {
     }
 
 }
+
