@@ -1,5 +1,6 @@
 package me.auropol.bluemint.rpc;
 
+import me.auropol.bluemint.primitive.Container;
 import me.auropol.bluemint.primitive.Picker;
 import me.auropol.bluemint.primitive.Task;
 import me.auropol.bluemint.rpc.util.DiscordEventHandlers;
@@ -60,9 +61,11 @@ public class RichPresenceCreator {
                     rpc.Discord_UpdatePresence(presence);
                 }
             };
-            if(new Random().nextBoolean()) {
-                rpc.Discord_UpdatePresence(presence);
-            }
+            boolean[] bs = Container.manage().createArrayBoolean(new Random().nextBoolean());
+            for(boolean b : bs) {
+             if(b) {
+                 rpc.Discord_UpdatePresence(presence);
+             }
             try {
                 if(updateImagesRandomly) {
                     presence.details = detail;
@@ -79,6 +82,7 @@ public class RichPresenceCreator {
             } catch(Exception exc) {
                 exc.printStackTrace();
             }
+              }
         } else {
             Logger.manage().info("Gif disabled", thread);
         }
