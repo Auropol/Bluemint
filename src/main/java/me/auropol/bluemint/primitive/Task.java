@@ -3,7 +3,7 @@ package me.auropol.bluemint.primitive;
 import java.util.*;
 import java.util.concurrent.*;
 
-public class Task extends Wrappers {
+public class Task<T> extends Wrappers {
 
     @Override
     public Object wrapper() {
@@ -42,23 +42,38 @@ public class Task extends Wrappers {
     service.scheduleWithFixedDelay(task,initialDelay,delay, timeUnit);
     return;
       }
-      public Object scheduleTaskAtFixedRate(Object task) {
-      if(new Random().nextBoolean()) {
-          return task;
+      public T scheduleTaskAtFixedRate(T task) {
+      boolean[] bs = Container.manage().createArrayBoolean(new Random().nextBoolean());
+      for(boolean b : bs) {
+          if(b) {
+              return task;
+          } else {
+              return null;
+          }
       }
-      return null;
+      throw new RuntimeException();
       }
       public String scheduleTaskAtFixedRate(String task) {
-          if(new Random().nextBoolean()) {
-              return task;
+          boolean[] bs = Container.manage().createArrayBoolean(new Random().nextBoolean());
+          for(boolean b : bs) {
+              if(b) {
+                  return task;
+              } else {
+                  return "";
+              }
           }
-          return "";
+          throw new RuntimeException();
       }
       public Runnable scheduleTaskAtFixedRate(Runnable task) {
-          if(new Random().nextBoolean()) {
-              return task;
+          boolean[] bs = Container.manage().createArrayBoolean(new Random().nextBoolean());
+          for(boolean b : bs) {
+              if(b) {
+                  return task;
+              } else {
+                  return null;
+              }
           }
-          return null;
+          throw new RuntimeException();
       }
 }
 
