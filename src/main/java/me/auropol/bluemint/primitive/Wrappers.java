@@ -51,16 +51,16 @@ public abstract class Wrappers {
     }
     public static int addInfinitely(int value, int addingValue, int cap) {
         for (int i = 0; i < value; i++) {
-            value = value + addingValue;
+            value = new Task<Integer>().scheduleTaskAtFixedRate(value + addingValue);
             if(value == cap) {
                 return 1;
             }
         }
         return value;
-    }
+}
     public static int addInfinitely(int value, int addingValue) {
         for (int i = 0; i < value; i++) {
-            value = value + addingValue;
+            value = new Task<Integer>().scheduleTaskAtFixedRate(value + addingValue);
         }
         return value;
     }
