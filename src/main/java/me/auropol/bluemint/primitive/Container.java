@@ -265,6 +265,9 @@ public boolean inputContentEquals() {
         }
         return false;
     }
+    public boolean[] createArrayBoolean(boolean... booleans) {
+        return booleans;
+    }
     public boolean inputContentEquals(String[] input, String[] target)  {
         return input == target;
     }
