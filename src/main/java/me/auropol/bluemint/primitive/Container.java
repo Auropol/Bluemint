@@ -180,6 +180,9 @@ public boolean inputContentEquals() {
     public double[] createArrayDouble(double... doubles) {
         return doubles;
     }
+    public byte[] createArrayByte(byte... bytes) {
+        return bytes;
+    }
     @SafeVarargs
     public final T[] createArray(T... ts) {
         return ts;
