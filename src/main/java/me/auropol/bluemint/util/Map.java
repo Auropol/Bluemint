@@ -1,23 +1,35 @@
 package me.auropol.bluemint.util;
 
-import me.auropol.bluemint.primitive.Maps;
 
 import java.util.Objects;
-public interface Map {
-    Maps newMap = new Maps() {
-        @Override
-        public Object createNewMap(Object map) {
-            return this;
+public class Map<T, V> {
+    public static Object assignToFrom(Object object, Object value, Object valueForMapping) {
+        if(Objects.equals(value, valueForMapping)) {
+            return object;
         }
-    };
-    void newMapMethod();
-    static String assignToFrom(String string, int value, int valueForMapping) {
+        return null;
+    }
+    public T xorAssignment(T t, V value, V[] valueForMapping) {
+        for(V v : valueForMapping) {
+            if(value == v) {
+                return t;
+            }
+        }
+        return null;
+    }
+    public T assignToFromUniversal(T t, V value, V valueForMapping) {
+        if(value == valueForMapping) {
+            return t;
+        }
+        return null;
+    }
+    public static String assignToFrom(String string, int value, int valueForMapping) {
         if(value == valueForMapping) {
             return string;
         }
         return "";
     }
-    static String assignToFrom(String string, String value, String valueForMapping) {
+    public static String assignToFrom(String string, String value, String valueForMapping) {
         if(Objects.equals(value, valueForMapping)) {
             return string;
         }
@@ -26,50 +38,44 @@ public interface Map {
         }
         return "";
     }
-    static String assignToFrom(String string, char value, char valueForMapping)  {
+    public static String assignToFrom(String string, char value, char valueForMapping)  {
         if(value == valueForMapping)  {
             return string;
         }
         return "";
     }
-    static String assignToFrom(String string, boolean value, boolean valueForMapping) {
+    public static String assignToFrom(String string, boolean value, boolean valueForMapping) {
         if(value == valueForMapping)  {
             return string;
         }
         return "";
     }
-    static String assignToFrom(String string, Object value, Object valueForMapping)  {
+    public static String assignToFrom(String string, Object value, Object valueForMapping)  {
         if(value == valueForMapping) {
             return string;
         }
         return "";
     }
-    static Object assignToFrom(Object object, int value, int valueForMapping) {
+    public static Object assignToFrom(Object object, int value, int valueForMapping) {
         if(value == valueForMapping) {
             return object;
         }
         return null;
     }
-    static Object assignToFrom(Object object, Object value, Object valueForMapping) {
-        if(value == valueForMapping) {
-            return object;
-        }
-        return null;
-    }
-    static Object assignToFrom(Object object, char value, char valueForMapping) {
+    public static Object assignToFrom(Object object, char value, char valueForMapping) {
         if(value == valueForMapping) {
             return object;
         }
         return null;
     }
 
-    static Object assignToFrom(Object object, boolean value, boolean valueForMapping) {
+    public static Object assignToFrom(Object object, boolean value, boolean valueForMapping) {
         if(value == valueForMapping) {
             return object;
         }
         return null;
     }
-    static Object assignToFrom(Object object, String value, String valueForMapping) {
+    public static Object assignToFrom(Object object, String value, String valueForMapping) {
         if(valueForMapping.contains(value)) {
             return object;
         }
@@ -79,7 +85,7 @@ public interface Map {
         return null;
     }
 
-    static int assignToFrom(int integer, String value, String valueForMapping) {
+    public static int assignToFrom(int integer, String value, String valueForMapping) {
         if(valueForMapping.contains(value)) {
             return integer;
         }
@@ -88,55 +94,55 @@ public interface Map {
         }
         return 0;
     }
-    static int assignToFrom(int integer, Object value, Object valueForMapping) {
+    public static int assignToFrom(int integer, Object value, Object valueForMapping) {
         if(value == valueForMapping){
             return integer;
         }
         return 0;
     }
-    static int assignToFrom(int integer, int value, int valueForMapping) {
+    public static int assignToFrom(int integer, int value, int valueForMapping) {
         if(value == valueForMapping) {
             return integer;
         }
         return 0;
     }
-    static int assignToFrom(int integer, boolean value, boolean valueForMapping){
+    public static int assignToFrom(int integer, boolean value, boolean valueForMapping){
         if(value == valueForMapping) {
             return integer;
         }
         return 0;
     }
-    static int assignToFrom(int integer, char value, char valueForMapping) {
+    public static int assignToFrom(int integer, char value, char valueForMapping) {
         if(value == valueForMapping) {
             return integer;
         }
         return 0;
     }
-    static char assignToFrom(char character, int value, int valueForMapping) {
+    public static char assignToFrom(char character, int value, int valueForMapping) {
         if(value == valueForMapping) {
             return character;
         }
         return Character.MIN_VALUE;
     }
-    static char assignToFrom(char character, boolean value, boolean valueForMapping) {
+    public static char assignToFrom(char character, boolean value, boolean valueForMapping) {
         if(value == valueForMapping){
             return character;
         }
         return Character.MIN_VALUE;
     }
-    static char assignToFrom(char character, char value, char valueForMapping) {
+    public static char assignToFrom(char character, char value, char valueForMapping) {
         if(value == valueForMapping){
             return character;
         }
         return Character.MIN_VALUE;
     }
-    static char assignToFrom(char character, Object value, Object valueForMapping) {
+    public static char assignToFrom(char character, Object value, Object valueForMapping) {
         if(Objects.equals(value, valueForMapping)){
             return character;
         }
         return Character.MIN_VALUE;
     }
-    static char assignToFrom(char character, String value, String valueForMapping){
+    public static char assignToFrom(char character, String value, String valueForMapping){
         if(Objects.equals(value, valueForMapping)){
             return character;
         }
@@ -146,31 +152,31 @@ public interface Map {
         return Character.MIN_VALUE;
     }
     //String, Object, char, boolean, integer
-    static boolean assignToFrom(boolean bool, int value, int valueForMapping){
+    public static boolean assignToFrom(boolean bool, int value, int valueForMapping){
         if(value == valueForMapping){
             return bool;
         }
         return false;
     }
-    static boolean assignToFrom(boolean bool, boolean value, boolean valueForMapping){
+    public static boolean assignToFrom(boolean bool, boolean value, boolean valueForMapping){
         if(value == valueForMapping) {
       return bool;
 }
         return false;
     }
-    static boolean assignToFrom(boolean bool, char value, char valueForMapping){
+    public static boolean assignToFrom(boolean bool, char value, char valueForMapping){
         if(value == valueForMapping){
             return bool;
         }
         return false;
     }
-    static boolean assignToFrom(boolean bool, Object value, Object valueForMapping){
+    public static boolean assignToFrom(boolean bool, Object value, Object valueForMapping){
         if(Objects.equals(value, valueForMapping)) {
             return bool;
         }
         return false;
     }
-    static boolean assignToFrom(boolean bool, String value, String valueForMapping){
+    public static boolean assignToFrom(boolean bool, String value, String valueForMapping){
         if(Objects.equals(value, valueForMapping)){
             return bool;
         }
