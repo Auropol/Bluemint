@@ -1,12 +1,6 @@
 package me.auropol.bluemint.primitive;
 
-import me.auropol.bluemint.util.RandStream;
-
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.stream.IntStream;
 
 public class Wrapper extends Wrappers {
@@ -38,6 +32,9 @@ public class Wrapper extends Wrappers {
         }
         return new Color(rBase + rAdditional - 1, gBase + gAdditional - 1, bAdditional + bBase - 1);
     }
+    public Color getColor(DoubleByte r, DoubleByte g, DoubleByte b) {
+        return new Color(r.integerValue(), g.integerValue(), b.integerValue());
+    }
     public Object getObject(){
         return getClass();
     }
@@ -46,19 +43,6 @@ public class Wrapper extends Wrappers {
     }
     public int pickRandomlyFromRange(int minValue, int maxValue) {
         int[] range = IntStream.range(minValue, maxValue).toArray();
-        return RandStream.pickFrom(range);
-    }
-    public int[] pickInOrder(int[] input, int rnd) {
-        java.util.List<Integer> list = new ArrayList<Integer>(input.length);
-        for (int i : input)
-            list.add(i);
-        Collections.shuffle(list);
-
-        int[] answer = new int[rnd];
-        for (int i = 0; i < rnd; i++)
-            answer[i] = list.get(i);
-        Arrays.sort(answer);
-
-        return answer;
+        return Picker.pickFrom(range);
     }
 }
