@@ -2,140 +2,200 @@ package me.auropol.bluemint.primitive;
 
 import java.util.Random;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 import static me.auropol.bluemint.primitive.Wrappers.addInfinitely;
 
-public interface Picker {
-    static int pickRandomlyFromRange(int minValue, int maxValue) {
+public class Picker<T> {
+    public T[] pickAndMerge(T[] input, Object[] inputForMerging) {
+        T t = (T)Picker.pickFrom(inputForMerging);
+        return new Container<T>().createArray(t, pickFromUniversal(input));
+    }
+    public T[] pickAndMerge(T[] input, Object[] inputForMerging, int radixInput, int radixInputForMerging) {
+        return new Container<T>().createArray(input[radixInput], (T)inputForMerging[radixInputForMerging]);
+    }
+    public T pickFromUniversal(T[] input) {
+        int nextT = new Random().nextInt(input.length);
+        return input[nextT];
+    }
+    public T pickFromUniversal(T[] input, int radix) {
+        if(input.length < radix)  {
+            throw new IllegalStateException("Value of radix is bigger then length of array");
+        }
+        return input[radix];
+    }
+    public T pickInOrderUniversal(T[] input) {
+        return pickFromUniversal(input, addInfinitely(0, 1, input.length));
+    }
+    @Deprecated
+    public T pickGradientlyFromUniversal(T[] input) {
+        int arrBound = addInfinitely(1, 1, input.length);
+        if(arrBound == 1) {
+            arrBound = addInfinitely(1, 1, input.length) + 2;
+            return input[2];
+        }
+        int nextObjectRaw = new Random().nextInt(arrBound);
+        if(arrBound == 1000) {
+            return input[nextObjectRaw];
+        } else {
+            int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrBound));
+            for(int i : numberBlackList)  {
+                if(i == nextObjectRaw)  {
+                    int anotherObject = new Random().nextInt(arrBound);
+                    if(i == anotherObject) {
+                        return input[new Random().nextInt(arrBound)];
+                    }
+                    return input[anotherObject];
+                }
+            }
+        }
+        return input[nextObjectRaw];
+    }
+    public static int pickRandomlyFromRange(int minValue, int maxValue) {
         int[] range = IntStream.range(minValue, maxValue).toArray();
         return Picker.pickFrom(range);
     }
-    static Object pickFrom(Object[] input) {
+    public static long pickRandomlyFromRange(long minValue, long maxValue) {
+        long[] range = LongStream.range(minValue, maxValue).toArray();
+        return Picker.pickFrom(range);
+    }
+    public static float pickRandomlyFromRange(float minValue, float maxValue) {
+        float start = 0;
+        double[] range = IntStream.range(Float.floatToIntBits(minValue), Float.floatToIntBits(maxValue)).asDoubleStream().toArray();
+        for(double d : range) {
+            start = start + Picker.pickFrom(Container.manage().createArrayFloat((float)d));
+        }
+        return start;
+    }
+    public static double pickRandomlyFromRange(double minValue, double maxValue) {
+        return Picker.pickFrom(LongStream.range(Double.doubleToLongBits(minValue), Double.doubleToLongBits(maxValue)).asDoubleStream().toArray());
+    }
+    public static Object pickFrom(Object[] input) {
         int nextObject = new Random().nextInt(input.length);
         return input[nextObject];
     }
-    static int pickFrom(int[] input) {
+    public static int pickFrom(int[] input) {
         int nextObject = new Random().nextInt(input.length);
         return input[nextObject];
     }
-    static long pickFrom(long[] input) {
+    public static long pickFrom(long[] input) {
         int nextObject = new Random().nextInt(input.length);
         return input[nextObject];
     }
-    static short pickFrom(short[] input) {
+    public static short pickFrom(short[] input) {
         int nextObject = new Random().nextInt(input.length);
         return input[nextObject];
     }
-    static byte pickFrom(byte[] input) {
+    public static byte pickFrom(byte[] input) {
         int nextObject = new Random().nextInt(input.length);
         return input[nextObject];
     }
-    static float pickFrom(float[] input) {
+    public static float pickFrom(float[] input) {
         int nextObject = new Random().nextInt(input.length);
         return input[nextObject];
     }
-    static double pickFrom(double[] input) {
+    public static double pickFrom(double[] input) {
         int nextObject = new Random().nextInt(input.length);
         return input[nextObject];
     }
-    static char pickFrom(char[] input) {
+    public static char pickFrom(char[] input) {
         int nextObject = new Random().nextInt(input.length);
         return input[nextObject];
     }
-    static boolean pickFrom(boolean[] input) {
+    public static boolean pickFrom(boolean[] input) {
         int nextObject = new Random().nextInt(input.length);
         return input[nextObject];
     }
-    static String pickFrom(String[] input) {
+    public static String pickFrom(String[] input) {
         int nextObject = new Random().nextInt(input.length);
         return input[nextObject];
     }
 
-    static Object pickInOrder(Object[] input) {
-      return pickFrom(input, addInfinitely(0, 1, 1000));
+    public static Object pickInOrder(Object[] input) {
+        return pickFrom(input, addInfinitely(0, 1, input.length));
     }
-    static int pickInOrder(int[] input) {
-        return pickFrom(input, addInfinitely(0, 1, 1000));
+    public static int pickInOrder(int[] input) {
+        return pickFrom(input, addInfinitely(0, 1, input.length));
     }
-    static long pickInOrder(long[] input) {
-        return pickFrom(input, addInfinitely(0, 1, 1000));
+    public static long pickInOrder(long[] input) {
+        return pickFrom(input, addInfinitely(0, 1, input.length));
     }
-    static short pickInOrder(short[] input) {
-        return pickFrom(input, addInfinitely(0, 1, 1000));
+    public static short pickInOrder(short[] input) {
+        return pickFrom(input, addInfinitely(0, 1, input.length));
     }
-    static byte pickInOrder(byte[] input) {
-        return pickFrom(input, addInfinitely(0, 1, 1000));
+    public static byte pickInOrder(byte[] input) {
+        return pickFrom(input, addInfinitely(0, 1, input.length));
     }
-    static float pickInOrder(float[] input) {
-        return pickFrom(input, addInfinitely(0, 1, 1000));
+    public static float pickInOrder(float[] input) {
+        return pickFrom(input, addInfinitely(0, 1, input.length));
     }
-    static double pickInOrder(double[] input) {
-        return pickFrom(input, addInfinitely(0, 1, 1000));
+    public static double pickInOrder(double[] input) {
+        return pickFrom(input, addInfinitely(0, 1, input.length));
     }
-    static char pickInOrder(char[] input) {
-        return pickFrom(input, addInfinitely(0, 1, 1000));
+    public static char pickInOrder(char[] input) {
+        return pickFrom(input, addInfinitely(0, 1, input.length));
     }
-    static boolean pickInOrder(boolean[] input) {
-        return pickFrom(input, addInfinitely(0, 1, 1000));
+    public static boolean pickInOrder(boolean[] input) {
+        return pickFrom(input, addInfinitely(0, 1, input.length));
     }
-    static String pickInOrder(String[] input) {
-        return pickFrom(input, addInfinitely(0, 1, 1000));
+    public static String pickInOrder(String[] input) {
+        return pickFrom(input, addInfinitely(0, 1, input.length));
     }
-    static Object pickFrom(Object[] input, int radix) {
+    public  static Object pickFrom(Object[] input, int radix) {
         if(input.length < radix)  {
             throw new IllegalStateException("Value of radix is bigger then length of array");
         }
         return input[radix];
     }
-    static int pickFrom(int[] input,  int radix) {
+    public  static int pickFrom(int[] input,  int radix) {
         if(input.length < radix)  {
             throw new IllegalStateException("Value of radix is bigger then length of array");
         }
         return input[radix];
     }
-    static long pickFrom(long[] input, int radix) {
+    public static long pickFrom(long[] input, int radix) {
         if(input.length < radix)  {
             throw new IllegalStateException("Value of radix is bigger then length of array");
         }
         return input[radix];
     }
-    static short pickFrom(short[] input, int radix) {
+    public static short pickFrom(short[] input, int radix) {
         if(input.length < radix)  {
             throw new IllegalStateException("Value of radix is bigger then length of array");
         }
         return input[radix];
     }
-    static byte pickFrom(byte[] input, int radix) {
+    public static byte pickFrom(byte[] input, int radix) {
         if(input.length < radix)  {
             throw new IllegalStateException("Value of radix is bigger then length of array");
         }
         return input[radix];
     }
-    static float pickFrom(float[] input, int radix) {
+    public static float pickFrom(float[] input, int radix) {
         if(input.length < radix)  {
             throw new IllegalStateException("Value of radix is bigger then length of array");
         }
         return input[radix];
     }
-    static double pickFrom(double[] input, int radix) {
+    public static double pickFrom(double[] input, int radix) {
         if(input.length < radix)  {
             throw new IllegalStateException("Value of radix is bigger then length of array");
         }
         return input[radix];
     }
-    static char pickFrom(char[] input, int radix) {
+    public static char pickFrom(char[] input, int radix) {
         if(input.length < radix)  {
             throw new IllegalStateException("Value of radix is bigger then length of array");
         }
         return input[radix];
     }
-    static boolean pickFrom(boolean[] input, int radix) {
+    public static boolean pickFrom(boolean[] input, int radix) {
         if(input.length < radix)  {
             throw new IllegalStateException("Value of radix is bigger then length of array");
         }
         return input[radix];
     }
-    static String pickFrom(String[] input, int radix) {
+    public static String pickFrom(String[] input, int radix) {
         if(input.length < radix)  {
             throw new IllegalStateException("Value of radix is bigger then length of array");
         }
@@ -143,7 +203,7 @@ public interface Picker {
     }
 
     @Deprecated
-    static String pickGradientlyFrom(String[] input) {
+    public static String pickGradientlyFrom(String[] input) {
         int arrBound = addInfinitely(1, 1, 1000);
         if(arrBound == 1) {
             arrBound = addInfinitely(1, 1, 1000) + 2;
@@ -167,7 +227,7 @@ public interface Picker {
         return input[nextObjectRaw];
     }
     @Deprecated
-    static Object pickGradientlyFrom(Object[] input) {
+    public static Object pickGradientlyFrom(Object[] input) {
         int arrBound = addInfinitely(1, 1, 1000);
         if(arrBound == 1) {
             arrBound = addInfinitely(1, 1, 1000) + 2;
@@ -191,7 +251,7 @@ public interface Picker {
         return input[nextObjectRaw];
     }
     @Deprecated
-    static int pickGradientlyFrom(int[] input) {
+    public  static int pickGradientlyFrom(int[] input) {
         int arrBound = addInfinitely(1, 1, 1000);
         if(arrBound == 1) {
             arrBound = addInfinitely(1, 1, 1000) + 2;
@@ -215,7 +275,7 @@ public interface Picker {
         return input[nextObjectRaw];
     }
     @Deprecated
-    static long pickGradientlyFrom(long[] input) {
+    public  static long pickGradientlyFrom(long[] input) {
         int arrBound = addInfinitely(1, 1, 1000);
         if(arrBound == 1) {
             arrBound = addInfinitely(1, 1, 1000) + 2;
@@ -239,7 +299,7 @@ public interface Picker {
         return input[nextObjectRaw];
     }
     @Deprecated
-    static short pickGradientlyFrom(short[] input) {
+    public static short pickGradientlyFrom(short[] input) {
         int arrBound = addInfinitely(1, 1, 1000);
         if(arrBound == 1) {
             arrBound = addInfinitely(1, 1, 1000) + 2;
@@ -263,7 +323,7 @@ public interface Picker {
         return input[nextObjectRaw];
     }
     @Deprecated
-    static byte pickGradientlyFrom(byte[] input) {
+    public  static byte pickGradientlyFrom(byte[] input) {
         int arrBound = addInfinitely(1, 1, 1000);
         if(arrBound == 1) {
             arrBound = addInfinitely(1, 1, 1000) + 2;
@@ -287,7 +347,7 @@ public interface Picker {
         return input[nextObjectRaw];
     }
     @Deprecated
-    static float pickGradientlyFrom(float[] input) {
+    public static float pickGradientlyFrom(float[] input) {
         int arrBound = addInfinitely(1, 1, 1000);
         if(arrBound == 1) {
             arrBound = addInfinitely(1, 1, 1000) + 2;
@@ -311,7 +371,7 @@ public interface Picker {
         return input[nextObjectRaw];
     }
     @Deprecated
-    static double pickGradientlyFrom(double[] input) {
+    public  static double pickGradientlyFrom(double[] input) {
         int arrBound = addInfinitely(1, 1, 1000);
         if(arrBound == 1) {
             arrBound = addInfinitely(1, 1, 1000) + 2;
@@ -335,7 +395,7 @@ public interface Picker {
         return input[nextObjectRaw];
     }
     @Deprecated
-    static char pickGradientlyFrom(char[] input) {
+    public  static char pickGradientlyFrom(char[] input) {
         int arrBound = addInfinitely(1, 1, 1000);
         if(arrBound == 1) {
             arrBound = addInfinitely(1, 1, 1000) + 2;
@@ -359,7 +419,7 @@ public interface Picker {
         return input[nextObjectRaw];
     }
     @Deprecated
-    static boolean pickGradientlyFrom(boolean[] input) {
+    public static boolean pickGradientlyFrom(boolean[] input) {
         int arrBound = addInfinitely(1, 1, 1000);
         if(arrBound == 1) {
             arrBound = addInfinitely(1, 1, 1000) + 2;
