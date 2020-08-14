@@ -1,12 +1,17 @@
 package me.auropol.bluemint.graphics;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
+
 public class Distance {
     private static DistanceHelper<Float> internalF;
     private static DistanceHelper<Double> internalD;
     private static DistanceHelper<Long> internalL;
     private static DistanceHelper<Integer> internalI;
-    private static DistanceHelper<Float> internalBF;
-    private static DistanceHelper<Double> internalBD;
+    private static DistanceHelper<BigDecimal> internalBF;
+    private static DistanceHelper<BigInteger> internalBD;
     private static abstract class DistanceHelper<T> {
         public abstract T getManhattan();
         public abstract T getLinear();
@@ -467,229 +472,311 @@ public class Distance {
             }
         };
     }
-    public Distance(BigPoint a, BigPoint b)  {
-        internalBF = new DistanceHelper<Float>() {
+    public Distance(BigPoint a, BigPoint b) {
+        internalBF = new DistanceHelper<BigDecimal>() {
             @Override
-            public Float getManhattan() {
+            public BigDecimal getManhattan() {
                 return Distance.this.getManhattan(a.getBigPoint(), b.getBigPoint());
             }
 
             @Override
-            public Float getLinear() {
+            public BigDecimal getLinear() {
                 return Distance.this.getLinear(a.getBigPoint(), b.getBigPoint());
             }
 
             @Override
-            public Float getWorley() {
+            public BigDecimal getWorley() {
                 return Distance.this.getWorley(a.getBigPoint(), b.getBigPoint());
             }
 
             @Override
-            public Float getQuadratic() {
+            public BigDecimal getQuadratic() {
                 return Distance.this.getQuadratic(a.getBigPoint(), b.getBigPoint());
             }
 
             @Override
-            public Float getEuclidean() {
+            public BigDecimal getEuclidean() {
                 return Distance.this.getEuclidean(a.getBigPoint(), b.getBigPoint());
             }
         };
     }
     public Distance(BigPoint.BigPoint3D a, BigPoint.BigPoint3D b) {
-        internalBF = new DistanceHelper<Float>() {
+        internalBF = new DistanceHelper<BigDecimal>() {
             @Override
-            public Float getManhattan() {
+            public BigDecimal getManhattan() {
                 return Distance.this.getManhattan(a.getBigPoint(), b.getBigPoint());
             }
 
             @Override
-            public Float getLinear() {
+            public BigDecimal getLinear() {
                 return Distance.this.getLinear(a.getBigPoint(), b.getBigPoint());
             }
 
             @Override
-            public Float getWorley() {
+            public BigDecimal getWorley() {
                 return Distance.this.getWorley(a.getBigPoint(), b.getBigPoint());
             }
 
             @Override
-            public Float getQuadratic() {
+            public BigDecimal getQuadratic() {
                 return Distance.this.getQuadratic(a.getBigPoint(), b.getBigPoint());
             }
 
             @Override
-            public Float getEuclidean() {
+            public BigDecimal getEuclidean() {
                 return Distance.this.getEuclidean(a.getBigPoint(), b.getBigPoint());
             }
         };
     }
     public Distance(BigPoint.BigPoint4D a, BigPoint.BigPoint4D b) {
-        internalBF = new DistanceHelper<Float>() {
-            @Override
-            public Float getManhattan() {
-                return Distance.this.getManhattan(a.getBigPoint(), b.getBigPoint());
-            }
+    internalBF = new DistanceHelper<BigDecimal>() {
+        @Override
+        public BigDecimal getManhattan() {
+            return Distance.this.getManhattan(a.getBigPoint(), b.getBigPoint());
+        }
 
-            @Override
-            public Float getLinear() {
-                return Distance.this.getLinear(a.getBigPoint(), b.getBigPoint());
-            }
+        @Override
+        public BigDecimal getLinear() {
+            return Distance.this.getLinear(a.getBigPoint(), b.getBigPoint());
+        }
 
-            @Override
-            public Float getWorley() {
-                return Distance.this.getWorley(a.getBigPoint(), b.getBigPoint());
-            }
+        @Override
+        public BigDecimal getWorley() {
+            return Distance.this.getWorley(a.getBigPoint(), b.getBigPoint());
+        }
 
-            @Override
-            public Float getQuadratic() {
-                return Distance.this.getQuadratic(a.getBigPoint(), b.getBigPoint());
-            }
+        @Override
+        public BigDecimal getQuadratic() {
+            return Distance.this.getQuadratic(a.getBigPoint(), b.getBigPoint());
+        }
 
-            @Override
-            public Float getEuclidean() {
-                return Distance.this.getEuclidean(a.getBigPoint(), b.getBigPoint());
-            }
-        };
-    }
+        @Override
+        public BigDecimal getEuclidean() {
+            return Distance.this.getEuclidean(a.getBigPoint(), b.getBigPoint());
+        }
+    };
+}
    public Distance(BigPoint.BigPointInfiniteD a, BigPoint.BigPointInfiniteD b) {
-       internalBF = new DistanceHelper<Float>() {
+       internalBF = new DistanceHelper<BigDecimal>() {
            @Override
-           public Float getManhattan() {
+           public BigDecimal getManhattan() {
                return Distance.this.getManhattan(a.getBigPoint(), b.getBigPoint());
            }
 
            @Override
-           public Float getLinear() {
+           public BigDecimal getLinear() {
                return Distance.this.getLinear(a.getBigPoint(), b.getBigPoint());
            }
 
            @Override
-           public Float getWorley() {
+           public BigDecimal getWorley() {
                return Distance.this.getWorley(a.getBigPoint(), b.getBigPoint());
            }
 
            @Override
-           public Float getQuadratic() {
+           public BigDecimal getQuadratic() {
                return Distance.this.getQuadratic(a.getBigPoint(), b.getBigPoint());
            }
 
            @Override
-           public Float getEuclidean() {
+           public BigDecimal getEuclidean() {
                return Distance.this.getEuclidean(a.getBigPoint(), b.getBigPoint());
            }
        };
    }
    public Distance(BigPoint.BigDoublePoint a, BigPoint.BigDoublePoint b) {
-        internalBD = new DistanceHelper<Double>() {
-            @Override
-            public Double getManhattan() {
-                return Distance.this.getManhattan(a.getBigDoublePoint(), b.getBigDoublePoint());
-            }
-
-            @Override
-            public Double getLinear() {
-                return Distance.this.getLinear(a.getBigDoublePoint(), b.getBigDoublePoint());
-            }
-
-            @Override
-            public Double getWorley() {
-                return Distance.this.getWorley(a.getBigDoublePoint(), b.getBigDoublePoint());
-            }
-
-            @Override
-            public Double getQuadratic() {
-                return Distance.this.getQuadratic(a.getBigDoublePoint(), b.getBigDoublePoint());
-            }
-
-            @Override
-            public Double getEuclidean() {
-                return Distance.this.getEuclidean(a.getBigDoublePoint(), b.getBigDoublePoint());
-            }
-        };
-   }
-   public Distance(BigPoint.BigDoublePoint.BigDoublePoint3D a, BigPoint.BigDoublePoint.BigDoublePoint3D b) {
-       internalBD = new DistanceHelper<Double>() {
+       internalBD = new DistanceHelper<BigInteger>() {
            @Override
-           public Double getManhattan() {
+           public BigInteger getManhattan() {
                return Distance.this.getManhattan(a.getBigDoublePoint(), b.getBigDoublePoint());
            }
 
            @Override
-           public Double getLinear() {
+           public BigInteger getLinear() {
                return Distance.this.getLinear(a.getBigDoublePoint(), b.getBigDoublePoint());
            }
 
            @Override
-           public Double getWorley() {
+           public BigInteger getWorley() {
                return Distance.this.getWorley(a.getBigDoublePoint(), b.getBigDoublePoint());
            }
 
            @Override
-           public Double getQuadratic() {
+           public BigInteger getQuadratic() {
                return Distance.this.getQuadratic(a.getBigDoublePoint(), b.getBigDoublePoint());
            }
 
            @Override
-           public Double getEuclidean() {
+           public BigInteger getEuclidean() {
+               return Distance.this.getEuclidean(a.getBigDoublePoint(), b.getBigDoublePoint());
+           }
+       };
+   }
+   public Distance(BigPoint.BigDoublePoint.BigDoublePoint3D a, BigPoint.BigDoublePoint.BigDoublePoint3D b) {
+       internalBD = new DistanceHelper<BigInteger>() {
+           @Override
+           public BigInteger getManhattan() {
+               return Distance.this.getManhattan(a.getBigDoublePoint(), b.getBigDoublePoint());
+           }
+
+           @Override
+           public BigInteger getLinear() {
+               return Distance.this.getLinear(a.getBigDoublePoint(), b.getBigDoublePoint());
+           }
+
+           @Override
+           public BigInteger getWorley() {
+               return Distance.this.getWorley(a.getBigDoublePoint(), b.getBigDoublePoint());
+           }
+
+           @Override
+           public BigInteger getQuadratic() {
+               return Distance.this.getQuadratic(a.getBigDoublePoint(), b.getBigDoublePoint());
+           }
+
+           @Override
+           public BigInteger getEuclidean() {
                return Distance.this.getEuclidean(a.getBigDoublePoint(), b.getBigDoublePoint());
            }
        };
    }
    public Distance(BigPoint.BigDoublePoint.BigDoublePoint4D a, BigPoint.BigDoublePoint.BigDoublePoint4D b) {
-       internalBD = new DistanceHelper<Double>() {
+       internalBD = new DistanceHelper<BigInteger>() {
            @Override
-           public Double getManhattan() {
+           public BigInteger getManhattan() {
                return Distance.this.getManhattan(a.getBigDoublePoint(), b.getBigDoublePoint());
            }
 
            @Override
-           public Double getLinear() {
+           public BigInteger getLinear() {
                return Distance.this.getLinear(a.getBigDoublePoint(), b.getBigDoublePoint());
            }
 
            @Override
-           public Double getWorley() {
+           public BigInteger getWorley() {
                return Distance.this.getWorley(a.getBigDoublePoint(), b.getBigDoublePoint());
            }
 
            @Override
-           public Double getQuadratic() {
+           public BigInteger getQuadratic() {
                return Distance.this.getQuadratic(a.getBigDoublePoint(), b.getBigDoublePoint());
            }
 
            @Override
-           public Double getEuclidean() {
+           public BigInteger getEuclidean() {
                return Distance.this.getEuclidean(a.getBigDoublePoint(), b.getBigDoublePoint());
            }
        };
    }
    public Distance(BigPoint.BigDoublePoint.BigDoublePointInfiniteD a, BigPoint.BigDoublePoint.BigDoublePointInfiniteD b) {
-       internalBD = new DistanceHelper<Double>() {
+       internalBD = new DistanceHelper<BigInteger>() {
            @Override
-           public Double getManhattan() {
+           public BigInteger getManhattan() {
                return Distance.this.getManhattan(a.getBigDoublePoint(), b.getBigDoublePoint());
            }
 
            @Override
-           public Double getLinear() {
+           public BigInteger getLinear() {
                return Distance.this.getLinear(a.getBigDoublePoint(), b.getBigDoublePoint());
            }
 
            @Override
-           public Double getWorley() {
+           public BigInteger getWorley() {
                return Distance.this.getWorley(a.getBigDoublePoint(), b.getBigDoublePoint());
            }
 
            @Override
-           public Double getQuadratic() {
+           public BigInteger getQuadratic() {
                return Distance.this.getQuadratic(a.getBigDoublePoint(), b.getBigDoublePoint());
            }
 
            @Override
-           public Double getEuclidean() {
+           public BigInteger getEuclidean() {
                return Distance.this.getEuclidean(a.getBigDoublePoint(), b.getBigDoublePoint());
            }
        };
+   }
+    private static BigDecimal sqrt(BigDecimal decimal) {
+        BigDecimal start = BigDecimal.ZERO;
+        BigDecimal dec = BigDecimal.valueOf(decimal.doubleValue());
+        while(!dec.equals(start)) {
+            start = dec;
+            dec = decimal.divide(start, decimal.scale(), RoundingMode.FLOOR);
+            dec = dec.add(start);
+            dec = dec.divide(BigDecimal.valueOf(2) , decimal.scale(), RoundingMode.HALF_UP);
+        }
+        return dec;
+    }
+   private BigInteger getManhattan(BigInteger[] point, BigInteger[] secondPoint) {
+        BigInteger start = BigInteger.ZERO;
+       for (int i = 0; i < point.length; i++) {
+           start = start.add(point[i].abs().add(secondPoint[i].abs()));
+       }
+       return sqrt(new BigDecimal(start)).toBigInteger();
+   }
+   private BigInteger getLinear(BigInteger[] point, BigInteger[] secondPoint) {
+        BigInteger start = BigInteger.ZERO;
+       for (int i = 0; i < point.length; i++) {
+           start = start.add(sqrt(new BigDecimal(point[i].pow(2).add(secondPoint[i].pow(2)))).toBigInteger());
+       }
+       return start.abs();
+   }
+   private BigInteger getWorley(BigInteger[] point, BigInteger[] secondPoint) {
+        BigInteger start = BigInteger.ZERO;
+       for (int i = 0; i < point.length ; i++) {
+           start = start.add(new BigDecimal(point[i].modPow(getLinear(point, secondPoint), secondPoint[i])).round(new MathContext(new BigDecimal(point[i].modPow(getLinear(point, secondPoint), secondPoint[i])).precision(), RoundingMode.FLOOR)).toBigInteger());
+       }
+       return sqrt(new BigDecimal(start)).toBigInteger();
+
+   }
+   private BigInteger getQuadratic(BigInteger[] point, BigInteger[] secondPoint) {
+        BigInteger start = BigInteger.ZERO;
+       for (int i = 0; i < point.length; i++) {
+           start = start.add(point[i].multiply(point[i]).add(point[i].multiply(secondPoint[i]).add(secondPoint[i].multiply(secondPoint[i]))));
+       }
+       return sqrt(new BigDecimal(start)).toBigInteger();
+   }
+   private BigInteger getEuclidean(BigInteger[] point, BigInteger[] secondPoint) {
+        BigInteger start = BigInteger.ZERO;
+       for (int i = 0; i < point.length; i++) {
+           start = start.add(point[i].modPow(point[i].min(secondPoint[i]), BigInteger.valueOf(2)));
+       }
+       return sqrt(new BigDecimal(start)).toBigInteger();
+   }
+   private BigDecimal getManhattan(BigDecimal[] point, BigDecimal[] secondPoint) {
+        BigDecimal start = BigDecimal.ZERO;
+       for (int i = 0; i < point.length; i++) {
+           start = start.add(point[i].abs().add(secondPoint[i].abs()));
+       }
+       return sqrt(start);
+   }
+   private BigDecimal getLinear(BigDecimal[] point, BigDecimal[] secondPoint) {
+        BigDecimal start = BigDecimal.ZERO;
+       for (int i = 0; i < point.length; i++) {
+           start = start.add(sqrt(new BigDecimal(point[i].toBigInteger().pow(2).add(secondPoint[i].toBigInteger().pow(2)))));
+       }
+       return start.abs();
+   }
+   private BigDecimal getWorley(BigDecimal[] point, BigDecimal[] secondPoint) {
+        BigDecimal start = BigDecimal.ZERO;
+       for (int i = 0; i < point.length; i++) {
+           start = start.add(new BigDecimal(new BigDecimal(point[i].toBigInteger().modPow(getLinear(point, secondPoint).toBigInteger(), secondPoint[i].toBigInteger())).round(new MathContext(new BigDecimal(point[i].toBigInteger().modPow(getLinear(point, secondPoint).toBigInteger(), secondPoint[i].toBigInteger())).precision(), RoundingMode.FLOOR)).toBigInteger()));
+       }
+       return sqrt(start);
+   }
+   private BigDecimal getQuadratic(BigDecimal[] point, BigDecimal[] secondPoint) {
+        BigDecimal start = BigDecimal.ZERO;
+       for (int i = 0; i < point.length ; i++) {
+           start = start.add(point[i].multiply(point[i]).add(point[i].multiply(secondPoint[i]).add(secondPoint[i].multiply(secondPoint[i]))));
+       }
+       return sqrt(start);
+   }
+   private BigDecimal getEuclidean(BigDecimal[] point, BigDecimal[] secondPoint) {
+        BigDecimal start = BigDecimal.ZERO;
+       for (int i = 0; i < point.length; i++) {
+           start = start.add(new BigDecimal(point[i].toBigInteger().modPow(point[i].min(secondPoint[i]).toBigInteger(), BigInteger.valueOf(2))));
+       }
+       return sqrt(start);
    }
     private float getManhattan(float[] point, float[] secondPoint) {
         float start = 0;
@@ -956,62 +1043,62 @@ public class Distance {
         return internalL.getEuclidean();
     }
     //Big Float
-    public float getManhattanBig() {
+    public BigDecimal getManhattanBig() {
         if(internalBF == null) {
             throw new NullPointerException("You cannot use this method since you are using a non-big-float constructor");
         }
         return internalBF.getManhattan();
     }
-    public float getLinearBig(){
+    public BigDecimal getLinearBig(){
         if(internalBF == null) {
             throw new NullPointerException("You cannot use this method since you are using a non-big-float constructor");
         }
         return internalBF.getLinear();
     }
-    public float getWorleyBig(){
+    public BigDecimal getWorleyBig(){
         if(internalBF == null) {
             throw new NullPointerException("You cannot use this method since you are using a non-big-float constructor");
         }
         return internalBF.getWorley();
     }
-    public float getQuadraticBig(){
+    public BigDecimal getQuadraticBig(){
         if(internalBF == null) {
             throw new NullPointerException("You cannot use this method since you are using a non-big-float constructor");
         }
         return internalBF.getQuadratic();
     }
-    public float getEuclideanBig(){
+    public BigDecimal getEuclideanBig(){
         if(internalBF == null) {
             throw new NullPointerException("You cannot use this method since you are using a non-big-float constructor");
         }
         return internalBF.getEuclidean();
     }
     // Big Double
-    public double  getManhattanBigDouble() {
+    public BigInteger  getManhattanBigDouble() {
         if(internalBD == null) {
             throw new NullPointerException("You cannot use this method since you are using a non-big-double constructor");
         }
         return internalBD.getManhattan();
     }
-    public double  getLinearBigDouble(){
+    public BigInteger  getLinearBigDouble(){
         if(internalBD == null) {
             throw new NullPointerException("You cannot use this method since you are using a non-big-double  constructor");
         }
         return internalBD.getLinear();
     }
-    public double  getWorleyBigDouble(){
+    public BigInteger  getWorleyBigDouble(){
         if(internalBD == null) {
             throw new NullPointerException("You cannot use this method since you are using a non-big-double  constructor");
         }
         return internalBD.getWorley();
     }
-    public double  getQuadraticBigDouble(){
+    public BigInteger  getQuadraticBigDouble(){
         if(internalBD == null) {
             throw new NullPointerException("You cannot use this method since you are using a non-big-double  constructor");
         }
         return internalBD.getQuadratic();
     }
-    public double getEuclideanBigDouble(){
+    public BigInteger getEuclideanBigDouble(){
         if(internalBD == null) {
             throw new NullPointerException("You cannot use this method since you are using a non-big-double  constructor");
         }
