@@ -2,6 +2,8 @@ package me.auropol.bluemint.primitive;
 
 import me.auropol.bluemint.util.Map;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
@@ -182,6 +184,16 @@ public boolean inputContentEquals() {
     }
     public byte[] createArrayByte(byte... bytes) {
         return bytes;
+    }
+    public T[] replace(T[] input, T oldValue, T replacingValue) {
+        if(inputContains(input, oldValue)) {
+           int index = Arrays.asList(input).indexOf(oldValue);
+           ArrayList<T> list = (ArrayList<T>) Arrays.asList(input);
+           list.set(index, replacingValue);
+           return (T[])list.toArray();
+        } else {
+            throw new RuntimeException("Could not find the value you wanted to replace in an array");
+        }
     }
     @SafeVarargs
     public final T[] createArray(T... ts) {
