@@ -37,6 +37,16 @@ public class Task<T> extends Wrappers {
         Timer timer = new Timer();
         timer.schedule(task, date);
   }
+  public T scheduleTaskAtFixedRate(T task, boolean[] schedules) {
+        for(boolean b : schedules) {
+            if(b) {
+                return task;
+            } else  {
+                return null;
+            }
+        }
+        throw new RuntimeException();
+  }
   private ScheduledExecutorService service;
   public void scheduleTaskAtFixedDelay(Runnable task, long initialDelay, long delay, TimeUnit timeUnit) {
     service.scheduleWithFixedDelay(task,initialDelay,delay, timeUnit);
