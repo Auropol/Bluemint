@@ -1,5 +1,9 @@
 package me.auropol.bluemint.graphics;
 
+import javafx.util.converter.BigDecimalStringConverter;
+import javafx.util.converter.BigIntegerStringConverter;
+import me.auropol.bluemint.primitive.Container;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -18,6 +22,32 @@ public class Distance {
         public abstract T getWorley();
         public abstract T getQuadratic();
         public abstract T getEuclidean();
+    }
+    private static int[] marr;
+    private static int[] mdarr;
+    private static BigInteger pow(BigInteger base, BigInteger multiplicand) {
+        String multiplicandStr = new BigIntegerStringConverter().toString(multiplicand);
+        int[] multiplicandArr = new int[multiplicandStr.length()];
+        for (int i = 0; i < multiplicandArr.length ; i++) {
+            multiplicandArr[i] = multiplicandStr.charAt(i) - '0';
+            marr = multiplicandArr;
+        }
+        for(int i : marr)  {
+            base = base.pow(i);
+        }
+        return base;
+    }
+    private static BigDecimal pow(BigDecimal base, BigDecimal multiplicand) {
+        String multiplicandStr = new BigDecimalStringConverter().toString(multiplicand);
+        int[] multiplicandArr = new int[multiplicandStr.length()];
+        for (int i = 0; i < multiplicandArr.length ; i++) {
+            multiplicandArr[i] = multiplicandStr.charAt(i) - '0';
+            mdarr = multiplicandArr;
+        }
+        for(int i : mdarr) {
+            base = base.pow(i);
+        }
+        return base;
     }
     public Distance(Point a, Point b) {
         internalF = new DistanceHelper<Float>() {
@@ -697,15 +727,14 @@ public class Distance {
        };
    }
     private static BigDecimal sqrt(BigDecimal decimal) {
-        BigDecimal start = BigDecimal.ZERO;
-        BigDecimal dec = BigDecimal.valueOf(decimal.doubleValue());
-        while(!dec.equals(start)) {
-            start = dec;
-            dec = decimal.divide(start, decimal.scale(), RoundingMode.FLOOR);
-            dec = dec.add(start);
-            dec = dec.divide(BigDecimal.valueOf(2) , decimal.scale(), RoundingMode.HALF_UP);
+        BigDecimal y = BigDecimal.ONE;
+        int precision = decimal.precision();
+        BigDecimal dec = decimal.abs().subtract(y).abs().divide(decimal.abs(), RoundingMode.FLOOR);
+        while(dec.compareTo(BigDecimal.valueOf(precision)) > precision) {
+            decimal = (decimal.add(y)).divide(BigDecimal.valueOf(2), RoundingMode.FLOOR);
+            y = decimal.divide(decimal, RoundingMode.FLOOR);
         }
-        return dec;
+        return decimal;
     }
    private BigInteger getManhattan(BigInteger[] point, BigInteger[] secondPoint) {
         BigInteger start = BigInteger.ZERO;
@@ -724,7 +753,8 @@ public class Distance {
    private BigInteger getWorley(BigInteger[] point, BigInteger[] secondPoint) {
         BigInteger start = BigInteger.ZERO;
        for (int i = 0; i < point.length ; i++) {
-           start = start.add(new BigDecimal(point[i].modPow(getLinear(point, secondPoint), secondPoint[i])).round(new MathContext(new BigDecimal(point[i].modPow(getLinear(point, secondPoint), secondPoint[i])).precision(), RoundingMode.FLOOR)).toBigInteger());
+           BigDecimal res = new BigDecimal(pow(getLinear(point, secondPoint), secondPoint[i]));
+           start = res.round(new MathContext(res.precision(), RoundingMode.FLOOR)).toBigInteger();
        }
        return sqrt(new BigDecimal(start)).toBigInteger();
 
@@ -739,7 +769,7 @@ public class Distance {
    private BigInteger getEuclidean(BigInteger[] point, BigInteger[] secondPoint) {
         BigInteger start = BigInteger.ZERO;
        for (int i = 0; i < point.length; i++) {
-           start = start.add(point[i].modPow(point[i].min(secondPoint[i]), BigInteger.valueOf(2)));
+           start = start.add(pow((point[i].subtract(secondPoint[i])), BigInteger.valueOf(2)));
        }
        return sqrt(new BigDecimal(start)).toBigInteger();
    }
@@ -753,14 +783,15 @@ public class Distance {
    private BigDecimal getLinear(BigDecimal[] point, BigDecimal[] secondPoint) {
         BigDecimal start = BigDecimal.ZERO;
        for (int i = 0; i < point.length; i++) {
-           start = start.add(sqrt(new BigDecimal(point[i].toBigInteger().pow(2).add(secondPoint[i].toBigInteger().pow(2)))));
+           start = start.add(sqrt(point[i].pow(2).add(secondPoint[i].pow(2))));
        }
        return start.abs();
    }
    private BigDecimal getWorley(BigDecimal[] point, BigDecimal[] secondPoint) {
         BigDecimal start = BigDecimal.ZERO;
        for (int i = 0; i < point.length; i++) {
-           start = start.add(new BigDecimal(new BigDecimal(point[i].toBigInteger().modPow(getLinear(point, secondPoint).toBigInteger(), secondPoint[i].toBigInteger())).round(new MathContext(new BigDecimal(point[i].toBigInteger().modPow(getLinear(point, secondPoint).toBigInteger(), secondPoint[i].toBigInteger())).precision(), RoundingMode.FLOOR)).toBigInteger()));
+           BigDecimal res = pow(getLinear(point, secondPoint), secondPoint[i]);
+           start = res.round(new MathContext(res.precision(), RoundingMode.FLOOR));
        }
        return sqrt(start);
    }
@@ -774,7 +805,7 @@ public class Distance {
    private BigDecimal getEuclidean(BigDecimal[] point, BigDecimal[] secondPoint) {
         BigDecimal start = BigDecimal.ZERO;
        for (int i = 0; i < point.length; i++) {
-           start = start.add(new BigDecimal(point[i].toBigInteger().modPow(point[i].min(secondPoint[i]).toBigInteger(), BigInteger.valueOf(2))));
+           start = start.add(pow((point[i].subtract(secondPoint[i])), BigDecimal.valueOf(2)));
        }
        return sqrt(start);
    }
@@ -788,14 +819,14 @@ public class Distance {
     private float getLinear(float[] point, float[] secondPoint) {
         float start = 0;
         for (int i = 0; i < point.length ; i++) {
-            start = start + (float)Math.sqrt(Math.round(point[i]) ^ 2 + Math.round(secondPoint[i]) ^ 2);
+            start = start + (float)Math.sqrt(Math.pow(point[i], 2) + Math.pow(secondPoint[i], 2));
         }
         return Math.abs(start);
     }
     private float getWorley(float[] point, float[] secondPoint) {
         float start = 0;
         for(int i = 0; i < point.length; ++i) {
-            start = start + (float)Math.floor(Float.floatToIntBits(getLinear(point, secondPoint)) ^ Float.floatToIntBits(secondPoint[i]));
+            start = start + (float)Math.floor(Math.pow(getLinear(point, secondPoint), secondPoint[i]));
         }
         return (float)Math.sqrt(start);
     }
@@ -823,14 +854,14 @@ public class Distance {
     private double getLinear(double[] point, double[] secondPoint) {
         double start = 0.0;
         for (int i = 0; i < point.length ; i++) {
-            start = start + Math.sqrt(Math.round(point[i]) ^ 2 + Math.round(secondPoint[i]) ^ 2);
+            start = start + Math.sqrt(Math.pow(point[i], 2) + Math.pow(secondPoint[i], 2));
         }
         return Math.abs(start);
     }
     private double getWorley(double[] point, double[] secondPoint) {
         double start = 0.0;
         for(int i = 0; i < point.length; ++i) {
-            start = start + Math.floor(Double.doubleToLongBits(getLinear(point, secondPoint)) ^ Double.doubleToLongBits(secondPoint[i]));
+            start = start + Math.floor(Math.pow(getLinear(point, secondPoint), secondPoint[i]));
         }
         return Math.sqrt(start);
     }
