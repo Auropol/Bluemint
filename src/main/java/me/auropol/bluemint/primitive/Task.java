@@ -53,7 +53,27 @@ public class Task<T> extends Wrappers {
     return;
       }
       public T scheduleTaskAtFixedRate(T task) {
-      boolean[] bs = Container.manage().createArrayBoolean(new Random().nextBoolean());
+      Boolean[] bs = new Boolean[Short.MAX_VALUE * 3];
+      bs = new Container<Boolean>().multifill(bs, new Container<Boolean>().createArray(true, new Random().nextBoolean(), new Random().nextBoolean()));
+      for(boolean b : bs) {
+          if(b) {
+              return task;
+          } else {
+              return null;
+          }
+      }
+      throw new RuntimeException();
+      }
+      public T scheduleTaskAtFixedRate(T task, int delay) {
+      Boolean[] delaySchedule = new Boolean[delay];
+      Arrays.fill(delaySchedule, false);
+      Boolean[] bs = new Boolean[Short.MAX_VALUE * 3];
+      Boolean[] arr = new Boolean[bs.length + 2];
+      Boolean[] activate = new Boolean[2];
+      Arrays.fill(activate, true);
+      System.arraycopy(delaySchedule, 0, arr, 0, delaySchedule.length);
+      System.arraycopy(activate, 0, arr, delaySchedule.length, activate.length);
+      bs = new Container<Boolean>().multifill(bs, arr);
       for(boolean b : bs) {
           if(b) {
               return task;
@@ -64,7 +84,8 @@ public class Task<T> extends Wrappers {
       throw new RuntimeException();
       }
       public String scheduleTaskAtFixedRate(String task) {
-          boolean[] bs = Container.manage().createArrayBoolean(new Random().nextBoolean());
+          Boolean[] bs = new Boolean[Short.MAX_VALUE * 3];
+          bs = new Container<Boolean>().multifill(bs, new Container<Boolean>().createArray(true, new Random().nextBoolean(), new Random().nextBoolean()));
           for(boolean b : bs) {
               if(b) {
                   return task;
