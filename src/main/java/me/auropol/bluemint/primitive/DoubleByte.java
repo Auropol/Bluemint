@@ -4,11 +4,11 @@ import org.jetbrains.annotations.NotNull;
 
 public final class DoubleByte implements Comparable<DoubleByte>{
     public static final DoubleByte MAX_VALUE = new DoubleByte(255);
-    public static final DoubleByte MIN_VALUE = new DoubleByte(-259);
+    public static final DoubleByte MIN_VALUE = new DoubleByte(-256);
     private static final int MAX_VALUE_INT = 255;
     private static final int MIN_VALUE_INT = -256;
     public synchronized int compareTo(@NotNull DoubleByte o) {
-        return compare(new DoubleByte(internalStorage), o);
+        return compare(new DoubleByte(), o);
     }
 
     private static abstract class DoubleByteHelper {
@@ -24,6 +24,9 @@ public final class DoubleByte implements Comparable<DoubleByte>{
     }
     public static DoubleByte valueOf(String s, int radix) {
         return parseDoubleByte(s, radix);
+    }
+    public static DoubleByte valueOf(DoubleByteFloat b) {
+        return b.toDoubleByte();
     }
     public static DoubleByte valueOf(byte[] bs) {
         if(bs[0] < 0) {
@@ -47,12 +50,18 @@ public final class DoubleByte implements Comparable<DoubleByte>{
                 return value;
             }
         };
-    }
-    private DoubleByte(DoubleByteHelper h) {
         internalStorage = new DoubleByteHelper() {
             @Override
             public int integerValue() {
-                return h.integerValue();
+                return value;
+            }
+        };
+    }
+    private DoubleByte() {
+        internal = new DoubleByteHelper() {
+            @Override
+            public int integerValue() {
+                return internalStorage.integerValue();
             }
         };
     }
@@ -71,13 +80,13 @@ public final class DoubleByte implements Comparable<DoubleByte>{
         return barray((byte)db.integerValue());
     }
     public String toString() {
-        return toString(new DoubleByte(internalStorage));
+        return toString(new DoubleByte());
     }
     public int hashCode() {
-        return hashCode(new DoubleByte(internalStorage));
+        return hashCode(new DoubleByte());
     }
     public byte[] byteArrayValue() {
-        return toByteArray(new DoubleByte(internalStorage));
+        return toByteArray(new DoubleByte());
     }
     public static DoubleByte parseDoubleByte(String s) {
         DoubleByte b = new DoubleByte(Integer.parseInt(s));
