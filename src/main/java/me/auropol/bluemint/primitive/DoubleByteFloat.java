@@ -27,7 +27,7 @@ public final class DoubleByteFloat implements Comparable<DoubleByteFloat>{
         return new DoubleByteFloat(b.floatValue());
     }
     public static DoubleByteFloat valueOf(float f) {
-        return new DoubleByteFloat(f);
+        return round(f);
     }
     public static DoubleByteFloat valueOf(String s) {
         return parseDoubleByteFloat(s);
@@ -43,22 +43,22 @@ public final class DoubleByteFloat implements Comparable<DoubleByteFloat>{
        return b;
     }
     public DoubleByteFloat(float value) {
-        if(value > MAX_VALUE_FLOAT) {
+        if(rfloat(value)> MAX_VALUE_FLOAT) {
             throw new IllegalStateException("The value is too high to process");
         }
-        if(value < MIN_VALUE_FLOAT) {
+        if(rfloat(value) < MIN_VALUE_FLOAT) {
             throw new IllegalStateException("The value is too low to process");
         }
         internal = new DoubleByteFloatHelper() {
             @Override
             public float floatValue() {
-                return value;
+                return rfloat(value);
             }
         };
         internalStorage = new DoubleByteFloatHelper() {
             @Override
             public float floatValue() {
-                return value;
+                return rfloat(value);
             }
         };
     }
@@ -104,12 +104,17 @@ public final class DoubleByteFloat implements Comparable<DoubleByteFloat>{
     public int hashCode() {
         return hashCode(new DoubleByteFloat());
     }
-    public static DoubleByteFloat sqrt(DoubleByteFloat base) {
-     String s = String.valueOf((float)Math.sqrt(base.floatValue()));
-     char[] c = Arrays.copyOf(s.toCharArray(), 6);
-     return new DoubleByteFloat(Float.parseFloat(String.valueOf(c)));
+    public static DoubleByteFloat round(float f) {
+        String s = String.valueOf(f);
+        char[] c = Arrays.copyOf(s.toCharArray(), 6);
+        return new DoubleByteFloat(Float.parseFloat(String.valueOf(c)));
     }
-
+    private float rfloat(float f) {
+        String s = String.valueOf(f);
+        char[] c = Arrays.copyOf(s.toCharArray(), 6);
+        return Float.parseFloat(String.valueOf(c));
+    }
+ 
     private DoubleByteFloat() {
         internal = new DoubleByteFloatHelper() {
             @Override
