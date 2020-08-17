@@ -199,6 +199,15 @@ public boolean inputContentEquals() {
     public final T[] createArray(T... ts) {
         return ts;
     }
+    public T[] multifill(T[] input, T[] fillingValue) {
+        for (T t: fillingValue) {
+         Arrays.fill(input, t);
+        }
+        return input;
+    }
+    public T[] shorten(T[] input, int newLength) {
+        return Arrays.copyOf(input, newLength);
+    }
     public boolean inputContains(T[] input, T target) {
         for(Object ob : input)  {
             if(ob == target) {
