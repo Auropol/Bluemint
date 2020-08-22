@@ -195,6 +195,31 @@ public boolean inputContentEquals() {
             throw new RuntimeException("Could not find the value you wanted to replace in an array");
         }
     }
+    public T[] replace(T[] input, T[] oldValue, T[] replacingValue) {
+        for (T t : oldValue) {
+            if (inputContains(input, t)) {
+              int[] indexes = Container.manage().createArrayInt(Arrays.asList(input).indexOf(t));
+              ArrayList<T> list = (ArrayList<T>) Arrays.asList(input);
+                for (int i = 0; i < indexes.length; i++) {
+                    list.set(indexes[i], replacingValue[i]);
+                }
+                return (T[])list.toArray();
+            }
+        }
+        throw new RuntimeException("Could not find the value you wanted to replace in an array");
+    }
+    public T[] remove(T[] input, T[] target) {
+        Object[] objects = new Object[input.length];
+        for (T t : target) {
+           objects = replace(input, t, null);
+        }
+        return (T[])objects;
+    }
+    public T[] remove(T[] input, T target) {
+        Object[] objects = new Object[input.length];
+        objects = replace(input, target, null);
+        return (T[])objects;
+    }
     @SafeVarargs
     public final T[] createArray(T... ts) {
         return ts;
@@ -209,8 +234,8 @@ public boolean inputContentEquals() {
         return Arrays.copyOf(input, newLength);
     }
     public boolean inputContains(T[] input, T target) {
-        for(Object ob : input)  {
-            if(ob == target) {
+        for(T t : input)  {
+            if(t == target) {
                 return true;
             }
         }
