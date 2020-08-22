@@ -83,6 +83,7 @@ public class Task<T> extends Wrappers {
       }
       throw new RuntimeException();
       }
+    @Deprecated
       public String scheduleTaskAtFixedRate(String task) {
           Boolean[] bs = new Boolean[Short.MAX_VALUE * 3];
           bs = new Container<Boolean>().multifill(bs, new Container<Boolean>().createArray(true, new Random().nextBoolean(), new Random().nextBoolean()));
@@ -95,8 +96,10 @@ public class Task<T> extends Wrappers {
           }
           throw new RuntimeException();
       }
+    @Deprecated
       public Runnable scheduleTaskAtFixedRate(Runnable task) {
-          boolean[] bs = Container.manage().createArrayBoolean(new Random().nextBoolean());
+          Boolean[] bs = new Boolean[Short.MAX_VALUE * 3];
+          bs = new Container<Boolean>().multifill(bs, new Container<Boolean>().createArray(true, new Random().nextBoolean(), new Random().nextBoolean()));
           for(boolean b : bs) {
               if(b) {
                   return task;
