@@ -120,8 +120,14 @@ public final class DoubleByte implements Comparable<DoubleByte>{
     public static long toUnsignedLong(DoubleByte b) {
         return b.integerValue();
     }
+    public static DoubleByteFloat toDoubleByteFloat(DoubleByte b) {
+        return DoubleByteFloat.valueOf(b);
+    }
     public float floatValue() {
         return (float)internal.integerValue();
+    }
+    public DoubleByteFloat doubleByteFloatValue() {
+        return DoubleByteFloat.valueOf(((float)internal.integerValue()));
     }
     public double doubleValue() {
         return internal.integerValue();
