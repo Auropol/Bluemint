@@ -96,7 +96,7 @@ public final class DoubleByteFloat implements Comparable<DoubleByteFloat>{
         return isNaN(new DoubleByteFloat());
     }
     public DoubleByte toDoubleByte() {
-       return toDoubleByte(new DoubleByteFloat());
+       return new DoubleByte(Math.round(internal.floatValue()));
     }
     public static int hashCode(DoubleByteFloat b) {
         return Float.hashCode(b.floatValue());
@@ -105,16 +105,46 @@ public final class DoubleByteFloat implements Comparable<DoubleByteFloat>{
         return hashCode(new DoubleByteFloat());
     }
     public static DoubleByteFloat round(float f) {
-        String s = String.valueOf(f);
-        char[] c = Arrays.copyOf(s.toCharArray(), 6);
-        return new DoubleByteFloat(Float.parseFloat(String.valueOf(c)));
+        return new DoubleByteFloat(rfloat(f));
     }
-    private float rfloat(float f) {
-        String s = String.valueOf(f);
-        char[] c = Arrays.copyOf(s.toCharArray(), 6);
-        return Float.parseFloat(String.valueOf(c));
+    private static float rfloat(float f) {
+        boolean negative = f < 0;
+       final float ff = Math.abs(f);
+       String str = String.valueOf(ff);
+       Character[] cs = str.chars().mapToObj(c -> (char)c).toArray(Character[]::new);
+       Character[] c = new Container<Character>().shorten(cs, 6);
+       Character[] c2 = new Container<Character>().shorten(cs, 5);
+       Character[] c3 = new Container<Character>().shorten(cs, 4);
+       Character[] c4 = new Container<Character>().shorten(cs, 3);
+       float finalFloat = Float.parseFloat(Arrays.toString(c));
+       float f2 = Float.parseFloat(Arrays.toString(c2));
+       float f3 = Float.parseFloat(Arrays.toString(c3));
+       float f4 = Float.parseFloat(Arrays.toString(c4));
+       if(finalFloat > MAX_VALUE_FLOAT) {
+           if(negative) {
+               f2 = -f2;
+           }
+           return f2;
+       }
+       if(f2 > MAX_VALUE_FLOAT) {
+           if(negative) {
+               f3 = -f3;
+           }
+           return f3;
+       }
+       if(f3 > MAX_VALUE_FLOAT) {
+           if(negative) {
+               f4 = -f4;
+           }
+           return f4;
+       }
+       if(negative) {
+           finalFloat = -finalFloat;
+       }
+       return finalFloat;
+
     }
- 
+
     private DoubleByteFloat() {
         internal = new DoubleByteFloatHelper() {
             @Override
