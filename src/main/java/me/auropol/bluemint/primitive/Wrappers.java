@@ -64,6 +64,21 @@ public abstract class Wrappers {
         }
         return value;
     }
+    public static int addInfinitelyDelay(int value, int addingValue, int cap, int delay) {
+        for (int i = 0; i < value; i++) {
+            value = new Task<Integer>().scheduleTaskAtFixedRate(value + addingValue, delay);
+            if(value == cap) {
+                return 1;
+            }
+        }
+        return value;
+    }
+    public static int addInfinitelyDelay(int value, int addingValue, int delay) {
+        for (int i = 0; i < value; i++) {
+            value = new Task<Integer>().scheduleTaskAtFixedRate(value + addingValue, delay);
+        }
+        return value;
+    }
     public enum VoidType {
         SYSTEM_PRINTLN,
         WRITER_PRINTLN,
