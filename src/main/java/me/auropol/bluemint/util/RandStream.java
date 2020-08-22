@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javafx.util.converter.BigIntegerStringConverter;
 import me.auropol.bluemint.BluemintInitializer;
 import me.auropol.bluemint.primitive.*;
 import me.auropol.bluemint.primitive.Container;
@@ -16,25 +17,73 @@ import sun.util.calendar.BaseCalendar;
 import static me.auropol.bluemint.primitive.Wrappers.addInfinitely;
 
 public interface RandStream {
+    static Color[] colors(int length) {
+        int[] integers = new int[length];
+        int[] integers2 = new int[length];
+        int[] integers3 = new int[length];
+        Color[] colors = new Color[length];
+        integers2 = new Random().ints((byte)Wrapper.wrap().pickRandomlyFromRange(0, 128), Byte.MAX_VALUE - 1 + 1).limit(length).toArray();
+        integers3 = new Random().ints((byte)Wrapper.wrap().pickRandomlyFromRange(0, 128), Byte.MAX_VALUE - 1 + 1).limit(length).toArray();
+        integers = new Random().ints((byte)Wrapper.wrap().pickRandomlyFromRange(0, 128), Byte.MAX_VALUE - 1 + 1).limit(length).toArray();
+        for (int i = 0; i < integers.length; i++) {
+            Arrays.fill(colors, Wrapper.wrap().getColor((byte)integers[i], (byte)integers[i], (byte)integers2[i], (byte)integers2[i], (byte)integers3[i], (byte)integers3[i]));
+        }
+        return colors;
+
+    }
+    static String[] letters(int length, boolean uppercase, boolean includeBlankCharacter) {
+        String[] letters = Container.manage().createArrayString("a", "b", "c", "d", "e", "f", "g", "h", "c", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q" ,"r", "s", "t", "u", "v", "w ","x ","y" ,"z");
+        if(includeBlankCharacter) {
+            letters = Container.manage().createArrayString("a", "b", "c", "d", "e", "f", "g", "h", "c", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q" ,"r", "s", "t", "u", "v", "w ","x ","y" ,"z", " ");
+            if(uppercase) {
+                letters = Container.manage().createArrayString("A", "B", "C" ,"D" ,"E" ,"F" ,"G" ,"H" ," I"  ," J"  ,"K", "L" ,"M" ,"N" ,"O", "P", "Q", "R", "S", "T", "U","V"," W"," X"," Y", "Z", " ");
+            }
+        }
+        if(uppercase) {
+            letters = Container.manage().createArrayString("A", "B", "C" ,"D" ,"E" ,"F" ,"G" ,"H" ," I"  ," J"  ,"K", "L" ,"M" ,"N" ,"O", "P", "Q", "R", "S", "T", "U","V"," W"," X"," Y", "Z");
+        }
+        int[] characters = new int[length];
+        String[] chars = new String[length];
+        characters = new Random().ints(Wrapper.wrap().pickRandomlyFromRange(1, 26), 26).limit(length).toArray();
+        for (int character : characters) {
+            Arrays.fill(chars, letters[character]);
+        }
+        return chars;
+
+    }
+    static char[] characters(int length) {
+        int[] cs = new Random().ints(Wrapper.wrap().pickRandomlyFromRange(0, 9), 9).limit(length).toArray();
+        char[] hexes = Container.manage().createArrayChar('A', 'B', 'C', 'D', 'E', 'F', Converter.convert().stringToChar(String.valueOf(Wrapper.wrap().pickRandomlyFromRange(0, 9)), 0));
+        char[] chars = new char[length];
+        char closeLiteral = '\u0031';
+        for (int value : cs) {
+            String[] characters = new String[length];
+            Arrays.fill(characters, String.valueOf(closeLiteral + hexes[value]));
+            for (String s : characters) {
+                chars = s.toCharArray().clone();
+            }
+        }
+        return chars;
+    }
+    
     static Color generateRandomColor() {
-        byte nextByte = (byte) (new Random().nextInt(Byte.MAX_VALUE - 1 + 1) - 1);
-        byte nextByte2 = (byte) (new Random().nextInt(Byte.MAX_VALUE - 1 + 1) - 1);
-        byte nextByte3 = (byte) (new Random().nextInt(Byte.MAX_VALUE - 1 + 1) - 1);
-        byte nextByte4 = (byte) (new Random().nextInt(Byte.MAX_VALUE - 1 + 1) - 1);
-        byte nextByte5 = (byte) (new Random().nextInt(Byte.MAX_VALUE - 1 + 1) - 1);
-        byte nextByte6 = (byte) (new Random().nextInt(Byte.MAX_VALUE - 1 + 1) - 1);
+        byte nextByte = (byte)Wrapper.wrap().pickRandomlyFromRange(0, 128);
+        byte nextByte2 = (byte)Wrapper.wrap().pickRandomlyFromRange(0, 128);
+        byte nextByte3 = (byte)Wrapper.wrap().pickRandomlyFromRange(0, 128);
+        byte nextByte4 = (byte)Wrapper.wrap().pickRandomlyFromRange(0, 128);
+        byte nextByte5 = (byte)Wrapper.wrap().pickRandomlyFromRange(0, 128);
+        byte nextByte6 = (byte) Wrapper.wrap().pickRandomlyFromRange(0, 128);
        return Wrapper.wrap().getColor(nextByte, nextByte2, nextByte3, nextByte4, nextByte5, nextByte6);
     }
     static char generateRandomCharacter() {
-        int nextChar = new Random().nextInt(7 - 1 + 1) - 1;
-        int nextNumber = new Random().nextInt(9 - 1 + 1) - 1;
-        String a = Map.assignToFrom("A", 1, new Random().nextInt(9 - 1 + 1) - 1);
-        String b = Map.assignToFrom("B", 2, new Random().nextInt(9 - 1 + 1) - 1);
-        String c = Map.assignToFrom("C", 3, new Random().nextInt(9 - 1 + 1) - 1);
-        String d = Map.assignToFrom("D", 4, new Random().nextInt(9 - 1 + 1) - 1);
-        String e = Map.assignToFrom("E", 5, new Random().nextInt(9 - 1 + 1) - 1);
-        String f =  Map.assignToFrom("F", 6, nextChar);
-        String number = Map.assignToFrom(String.valueOf(nextNumber),7, nextChar);
+        int nextNumber = Wrapper.wrap().pickRandomlyFromRange(0, 9);
+        String a = Map.assignToFrom("A", 1, Wrapper.wrap().pickRandomlyFromRange(1, 7));
+        String b = Map.assignToFrom("B", 2, Wrapper.wrap().pickRandomlyFromRange(1, 7));
+        String c = Map.assignToFrom("C", 3, Wrapper.wrap().pickRandomlyFromRange(1, 7));
+        String d = Map.assignToFrom("D", 4, Wrapper.wrap().pickRandomlyFromRange(1, 7));
+        String e = Map.assignToFrom("E", 5, Wrapper.wrap().pickRandomlyFromRange(1, 7));
+        String f =  Map.assignToFrom("F", 6, Wrapper.wrap().pickRandomlyFromRange(1, 7));
+        String number = Map.assignToFrom(String.valueOf(nextNumber),7, Wrapper.wrap().pickRandomlyFromRange(1, 7));
         char closeLiteral = '\u0031';
         String strCharacter = closeLiteral + "u" + a + b + c + d + e + f + number;
         int i = Integer.parseInt(strCharacter);
@@ -114,13 +163,24 @@ public interface RandStream {
         return a + b + c + d + e+ f + g + h + i+ j + k + l + m + n + o + p + q + r + s + t + u + v + w + x + y + z;
     }
     static int[] generateRandomMoreDigitInteger(int digits) {
-    Random random = new Random();
-    byte[] bytes = new BigInteger(digits, random).toByteArray();
-    return Converter.convert().byteArrayToIntArray(bytes);
+        String intsStr = new BigIntegerStringConverter().toString(new BigInteger(digits, new Random()));
+        int[] ints = new int[intsStr.length()];
+        for (int i = 0; i < ints.length ; i++) {
+            ints[i] = intsStr.charAt(i) - '0';
+        }
+        return ints;
+    }
+    static int[] generateRandomMoreDigitInteger(int digits, long seed) {
+        String intsStr = new BigIntegerStringConverter().toString(new BigInteger(digits, new Random(seed)));
+        int[] ints = new int[intsStr.length()];
+        for (int i = 0; i < ints.length ; i++) {
+            ints[i] = intsStr.charAt(i) - '0';
+        }
+        return ints;
     }
     static int generateRandomHexInteger() {
-        int nextHex = new Random().nextInt(7 - 1 + 1) - 1;
-        int nextNumber = new Random().nextInt(9 - 1 + 1) - 1;
+        int nextHex = Wrapper.wrap().pickRandomlyFromRange(1, 7);
+        int nextNumber = Wrapper.wrap().pickRandomlyFromRange(0, 9);
         boolean nextMethod = new Random().nextBoolean();
         char zero = '\u0030';
         char x = '\u0078';
@@ -179,10 +239,10 @@ public interface RandStream {
     }
 
     static byte generateRandomByte() {
-        return (byte) ((byte)new Random().nextInt(Byte.MAX_VALUE - 1) + 1);
+        return (byte) ((byte)Wrapper.wrap().pickRandomlyFromRange(Byte.MIN_VALUE, Byte.MAX_VALUE));
     }
     static short generateRandomShort() {
-        return (short) ((short)new Random().nextInt(Short.MAX_VALUE - 1) + 1);
+        return (short) ((short)Wrapper.wrap().pickRandomlyFromRange(Short.MIN_VALUE, Short.MAX_VALUE));
     }
     static String generateRandomHash() {
         String rnd = RandStream.generateRandomLetter(true) + RandStream.generateRandomLetter(false) + RandStream.generateRandomLetter(false) + RandStream.generateRandomLetter(false);
@@ -210,27 +270,23 @@ public interface RandStream {
         };
         return Arrays.toString(messageDigest.digest(input));
     }
-    static int blacklist(int arrayLength, boolean uncall) {
-        int nextObjectRaw = new Random().nextInt(arrayLength);
-        int[] numberBlackList = Container.manage().createArrayInt(new Random().nextInt(arrayLength));
-        if(uncall) {
-            for(int i : numberBlackList) {
-                if(i == nextObjectRaw) {
-                    int anotherObject = new Random().nextInt(arrayLength);
-                    if(i == anotherObject) {
-                        return new Random().nextInt(arrayLength);
-                    }
-                    return anotherObject;
-                }
-                return new Random().nextInt(arrayLength);
+    static int blacklist(int[] blacklist, int rnd, boolean uncall) {
+        int start = 0;
+        for (int value : blacklist) {
+            int[] operations = Container.manage().createArrayInt(rnd + Picker.pickFrom(blacklist), rnd - Picker.pickFrom(blacklist), rnd / Picker.pickFrom(blacklist), rnd * Picker.pickFrom(blacklist));
+            if (rnd == value) {
+                start = start + Picker.pickFrom(operations);
             }
         }
-        return nextObjectRaw;
+        float[] otherOperations = Container.manage().createArrayFloat((float)Math.sqrt(start), (float)Math.log10(start));
+        return Math.round(Picker.pickFrom(otherOperations));
+
     }
     static Color changingColor() {
-       Runnable task = new Task().generateNewTaskR(generateRandomColor());
-       new Task().scheduleTaskAtFixedDelay(task, 1, 1, TimeUnit.MILLISECONDS);
-       return generateRandomColor();
+      return new Task<Color>().scheduleTaskAtFixedRate(generateRandomColor());
+    }
+    static Color changingColor(int delay) {
+        return new Task<Color>().scheduleTaskAtFixedRate(generateRandomColor(), delay);
     }
     @Deprecated
     static String pickGradientlyFrom(String[] input) {
